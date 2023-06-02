@@ -1,0 +1,17 @@
+Welcome to billthewizard's documentation!
+=========================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   
+   About.md
+   Biography.md
+   Home.md
+   _Sidebar.md
+Indices and tables
+==================
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
