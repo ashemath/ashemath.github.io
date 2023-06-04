@@ -5,7 +5,7 @@ I am Bill Ashe, and I am the Wizard. My parental units brought me online in the 
 ## The Student
 I survived childhood poverty and trauma: leaving home at the age of sixteen to find my way in the world. I enrolled at Cascades Job Corps in Sedro Woolley, Washington. At Job Corps, staff encouraged me to broaden my ambitions; they supported me in going to community college, and at 19 years old, I was accepted into the Elementary Education program at Western Washington University.
 
-I found studying Elementary Education to be very rewarding. Teaching pushed my social and communication abilities to the limit. I knew I had deficits in these areas, and I was determined to get better. Looking back, I see that I was trying to fit in. Teaching is a socially focused role with high levels of publicly visible responsibilities. Eveeryone is waiting for you to take a lead. I had panic attacks between my classes. I got super frustrated with how nervous I was, all the time. 
+I found studying Elementary Education to be very rewarding. Teaching pushed my social and communication abilities to the limit. I knew I had deficits in these areas, and I was determined to get better. Looking back, I see that I was trying to fit in. Teaching is a socially focused role with high levels of publicly visible responsibilities. Everyone is waiting for you to take a lead. I had panic attacks between my classes. I got super frustrated with how nervous I was, all the time. 
 
 ## The Teacher
 I finished at WWU in 2012, earning a Bachelors Degree in Elementary Mathematics and endorsements to teach both grades K-8 and Secondary Mathematics.
@@ -47,12 +47,6 @@ Teaching Advanced IT topics in a Job Corps setting is challenging. We have a sol
 - Building a Linux-based identity management solution based on Fedora Server and FreeIPA
 - Configuring NFS storage on physical NAS units, Windows Server, Fedora Server VMs, and TrueNAS VMs.
 - Creating an open source Virtual Desktop Infrastructure combining Fedora Workstation VMs, FreeIPA on Fedora Server virtualized on ProxMox
-
-## The Crisis
-In 2020,I went through a mid-life crisis of sorts, and my financial burden increased dramatically. I was no longer a full-time Dad, and I was trying to support my self while paying for daycare and child-support. Uncertainty permeated my existence. I decided that I needed a change, so I doubled down on my studies in Networking and Linux system administration. I set about complementing my extensive lab experience with an organized study of industry standard training solutions: Cisco Networking Academy, CompTIA CertMaster, and TestOut. Within two years, I was confident in my understanding of network configuration and system administration. I started applying to technical positions Fall of 2021. Leaving Job Corps was a tough decision. I was responsible for maintaining a collection of equipment that no one else could operate.
-
-## The Miracle
-I came across a post for an IT System Admin position with Western's Computer Science department. Western is only a couple blocks away from my home, and the salary was a big step up. I applied, and a couple months later, I had a series of interviews. Interviewing was unlike any of my teaching interviews: it was walking into a room full of people who get excited about computers, and talking about my understanding of computers. Through the interviews, I became certain that this could be a great fit. I had practical experience with most everything that I would potentially be doing in that role. I would truly be doing the work that I loved doing for Job Corps, but on a supportive team rather than working solo. I was offered a full-time position in August, 2022.
 
 ## The Professional Objective
 I am focusing my studies towards designing scalable, reproducible, and resilient private clouds.

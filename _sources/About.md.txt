@@ -7,7 +7,10 @@ I work as a System and Network Administrator for a Public University. Our small 
 Prior to working for the University, I taught Linux and Cisco Networking for Job Corps as the instructor/designer of their "Advanced IT" trade.
 
 ## Why Bill the Wizard?
-Computers and networking technologies drive solutions to problems in our daily lives, yet the goal of our implementations with these technologies center around making them as transparent to the end user as possible. The work is all about making the things happen "automagically." The end-user wants to click a link and have all of these amazing things happen, without needing insight into the underlying configuration that's necessary to do the thing.
+Computers and networking technologies drive solutions to problems in our daily lives,
+yet the goal of our implementations with these technologies center around making them as transparent to the end user as possible.
+The work is all about making the things happen "automagically."
+The end-user wants to click a link and have all of these amazing things happen, without needing insight into the underlying configuration that's necessary to do the thing.
 
 Complex technical solutions to real-world problems require a rich combination of: 
 - Cable and Power management
@@ -23,8 +26,24 @@ Complex technical solutions to real-world problems require a rich combination of
 - Application Configuration
 - Application Deployment
 
-I strive to be someone who understands things at this level: a wizard. Someone who invokes daemons and memorizes incantations. There is always more to learn. Things change over time, both subtle changes and major re-imaginings of entire system processes. Mastering the art of System Administration is site specific, Operating System specific, scale-specific, network specific, and user demands change over time: week to week, month to month, day-to-day, and hour-to-hour.
+I strive to be someone who understands things at this level: a wizard. Someone who invokes daemons and memorizes incantations.
+There is always more to learn. Things change over time, both subtle changes and major re-imaginings of entire system processes.
+Mastering the art of System Administration is site specific, Operating System specific, scale-specific, network specific, and
+user demands change over time: week to week, month to month, day-to-day, and hour-to-hour.
 
-Managing a collection of computer systems is a lot like managing a herd of cattle and a doggie daycare at the same time. The cattle need one kind of approach, while the pet doggies need a different sort of attention. A customized faculty research workstation requires a different touch than a general purpose lab machine.
+Managing a collection of computer systems is a lot like managing a herd of cattle and a doggie daycare at the same time.
+The cattle need one kind of approach, while the pet doggies need a different sort of attention. A customized faculty research workstation requires a different touch than a general purpose lab machine.
 
-I understand that I'll toil for decades learning these things, and I am wholly at piece with this fact.
+I understand that I'll toil for decades learning these things, and I am fine with that.
+
+## Teacher and Computer/Network Expert
+Everyone has an origin story, and everyone has their struggles. I had a 10 year career as
+an educator before changing fields to work as a System/Network Admin.
+My origin story consists of struggles. Please see my biography: [biography](/Biography.md).
+
+
+I have supervised studies in Game Development, Web Development, Graphic Design, Computer Help Desk, Networking, and Linux System Administration. I enjoy 3D Modeling and Animation,
+and Computer Programming.
+
+I have a CompTIA A+, Network+, Security+, and Linux+, and I have a Cisco CCNA that I achieved June 2022.
+

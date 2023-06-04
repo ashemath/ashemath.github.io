@@ -1,4 +1,4 @@
-Welcome to billthewizard's documentation!
+Bill the Wizard's Homepage
 =========================================
 
 .. toctree::
@@ -9,9 +9,7 @@ Welcome to billthewizard's documentation!
    About.md
    Biography.md
    Home.md
-   _Sidebar.md
 Indices and tables
 ==================
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+* :ref:`genindex`
