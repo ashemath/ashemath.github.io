@@ -1,0 +1,67 @@
+# Biography
+## The Origin Story
+I am Bill Ashe, and I am the Wizard. My parental units brought me online in the late 80's. I spent my early days playing NES, running awful games on MS-DOS, and breaking Windows 95 trying to find Beavis and Butthead videos on a 56k modem. Rich childhood experiences playing with technology fostered a passion for computing that has kept me entertained all these years.
+
+### The Student
+I survived childhood poverty and trauma: leaving home at the age of sixteen to find my way in the world. I enrolled at Cascades Job Corps in Sedro Woolley, Washington. At Job Corps, staff encouraged me to broaden my ambitions; they supported me in going to community college, and at 19 years old, I was accepted into the Elementary Education program at Western Washington University.
+
+I found studying Elementary Education to be very rewarding. Teaching pushed my social and communication abilities to the limit. I knew I had deficits in these areas, and I was determined to get better. Looking back, I see that I was trying to fit in. Teaching is a socially focused role with high levels of publicly visible responsibilities. Everyone is waiting for you to take a lead. I had panic attacks between my classes. I got super frustrated with how nervous I was, all the time. 
+
+### The Teacher
+I finished at WWU in 2012, earning a Bachelors Degree in Elementary Mathematics and endorsements to teach both grades K-8 and Secondary Mathematics.
+
+In 2012, I became a Father, and working became a priority for me. Luckily, I found an opportunity at Cascades Job Corps, the same place that I had gone to as a teen. I taught mathematics in a Adult Basic Education setting for about 4 years at Cascades until an exciting pilot program was announced: our Center would be the focus of a national push to modernize Job Corps. 
+
+Our Center would be temporarily shutting down to transition to the new program, so I went to work as a full-time elementary teacher for almost two years. I struggled a lot as a Elementary Teacher: I walked into that classroom excited to do my best, but the chaos and pressure pushed me further than I had ever imagined.
+
+### The Game Development Instructor
+In 2017, I came back to Cascades Job Corps to supervise college students enrolled in Media and Interactive Technology (MIT) classes at Skagit Valley College. As the students in my class progressed, I did my best to try out their assignments, and I learned a lot about Web Design and Adobe Creative Cloud. In addition to the MIT coursework, I studied the Unity game engine, C#, Java, and Python. Many of our students succeeded at SVC, and achieved their Associates in Arts or Program Certificate. The pilot program moved to a phase where we were no longer enrolling college students in 2019, and we began to discuss moving onto another role: instructor for a new “Advanced IT” course. In Spring 2020, the COVID-19 pandemic brought our MIT course to a halt, along with the rest of the World.
+
+### The Advanced IT Instructor
+
+When I came back to work after the long period of working from home, I began prepping for my new role of “Advanced IT” instructor. We had collected an assortment of enterprise firewalls, servers, switches, NAS units, Uninterruptable Power Supplies, business class network connection with a small static IP range. All of this was waiting for a knowledgeable person to set up a local network infrastructure, but I had only passed my CompTIA A+, and I had never worked on a server before.
+
+Teaching Advanced IT topics in a Job Corps setting is challenging. We have a solid enterprise network operating throughout campus, complete with WIFI and up-to-date Windows 10 computers, but the production Job Corps system expressly forbids students from making any administrative changes on the computers. I decided that we would need to build our own Virtual Desktop Infrastructure, separate from the Job Corps production system, and I set about a course of study that would lead me to realizing this goal.
+
+### The Certifications
+- CompTIA IT Fundamentals
+- CompTIA A+
+- CompTIA Network+
+- CompTIA Security+
+- CompTIA Linux+
+- Cisco CCNA
+
+### The Advanced IT Journey
+
+- Building a high performance gaming PC for my desk computer, and configuring Windows 10
+- Working with colleagues to configure enterprise switches and routers to create the necessary network infrastructure throughout our building.
+- Creating network connections for the servers to access the network. 32 Cat-6 cables to get the VDI online and local network connected.
+- Installing Windows Server 2019 on two HP ProLiant Servers: setting up a Active Directory domain with replicating domain controllers running as guests in Hyper-V.
+- Installing EXSI 7.0 on four HP ProLiant Servers, installing vCenter, and creating a distributed networking configuration that would give us flexibility in managing student projects.
+- Installing ProxMox 6.3 on three ProLiant Servers, learning about Linux networking concepts, and mirroring the functionality of vCenter using open-source software.
+- Exploring how to get a website online, researching options for doing a reverse proxy.
+- Setting up Apache Guacamole on a virtual machine running on ProxMox, and using a reverse proxy to access Guacamole over HTTPS/443 using TLS encryption.
+- Studying for and passing the CompTIA Network+ and Security+
+- Participating in a Train the Trainer course for Cisco CyberOps Associate
+- Installing Security Onion in Proxmox, setting up a Span port and passing it to the VM. Creating a functional mini-SOC.
+- Building a Linux-based identity management solution based on Fedora Server and FreeIPA
+- Configuring NFS storage on physical NAS units, Windows Server, Fedora Server VMs, and TrueNAS VMs.
+- Creating an open source Virtual Desktop Infrastructure combining Fedora Workstation VMs, FreeIPA on Fedora Server virtualized on ProxMox
+
+### System and Network Administration
+I work as a System and Network Admin. I collaborate with a small team of professionals in 
+configuring and maintaining a wide variety of services. We do it all:
+- Desktop Support
+- Web services
+- Networking
+- Remote Access
+- Private Cloud
+- File storage.
+We support offices, labs, classrooms, and high performance research systems.
+In our work, we leverage open-source software and enterprise-grade hardware to facilitate 
+world-class  learning experiences. 
+
+### The Professional Objective
+I am focusing my studies towards designing scalable, reproducible, and resilient private clouds.
+- Combining hyper-converged infrastructure with enterprise networking hardware to create flexible, resilient, and high-performing computer systems.
+- Supporting System Operation, DevOps, and and Research workloads.

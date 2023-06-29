@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Wizard Lab &#8212; Bill the Wizard&#39;s Homepage</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Art" href="Art.html" />
+    <link rel="prev" title="Bill the Wizard" href="About.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="wizard-lab">
+<h1>Wizard Lab<a class="headerlink" href="#wizard-lab" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="https://www.github.com/ashemath/wizardlab">wizardlab Github page</a>
+<em>This project is under development, and designed only
+for training and testing purposes.</em>
+Multi-Machine training environment Vagrantfile</p>
+<section id="features">
+<h2>Features:<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Debian Bookworm featuring an XFCE4 desktop</p></li>
+<li><p>Control: 2 CPU, 2GB ram, 20GB Virtual Disk</p></li>
+<li><p>Service: 4 CPU, 4GB ram, 20GB Virtual Disk</p></li>
+<li><p>Client: 2 CPU, 2GB ram, 20GB Virtual Disk</p></li>
+</ul>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Linux OS (Need to test on Windows)</p></li>
+<li><p>Virtualbox or Libvirt/KVM</p></li>
+<li><p>Vagrant and the the vagrant-libvirt plugin if using libvirt.</p></li>
+<li><p>Up to 8GB of RAM (16GB system RAM recommended)</p></li>
+<li><p>Up to 60 GB Storage</p></li>
+</ul>
+</section>
+<section id="networking">
+<h2>Networking<a class="headerlink" href="#networking" title="Permalink to this heading">¶</a></h2>
+<p>Depending on how your are using Virtualbox or Libvirt,
+the Virtual NIC Vagrant uses to provision hosts may vary, but
+this file sets up a secondary network adapter on each machine that
+sits on the network 192.168.56.0/24</p>
+<p>Control: 192.168.56.2
+Service: 192.168.56.3
+Client: 192.168.56.4</p>
+<p>The Control host will have a ready to use installation of Ansible
+in a Python virtual environment at /home/vagrant/ansible</p>
+</section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h2>
+<section id="install-nfs-server">
+<h3>Install NFS Server<a class="headerlink" href="#install-nfs-server" title="Permalink to this heading">¶</a></h3>
+<p>To use the default folder sync, you will need to install NFS.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt update
+$ sudo apt install -y nfs-kernel-server
+</pre></div>
+</div>
+<p>Vagrant will manage the NFS exports for you, but you will need to be prepared to enter
+your sudo credentials when it goes to mount the shares. The shares are networked
+over the host-only interface that the VMs share with your host environment.</p>
+</section>
+<section id="install-git-if-needed">
+<h3>Install Git if needed:<a class="headerlink" href="#install-git-if-needed" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="clone-this-repo-with-git">
+<h3>Clone this repo with GIT<a class="headerlink" href="#clone-this-repo-with-git" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/ashemath/wizardlab.git
+$ cd wizardlab
+</pre></div>
+</div>
+</section>
+<section id="start-up-the-machine">
+<h3>Start up the machine<a class="headerlink" href="#start-up-the-machine" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">vagrant</span> <span class="pre">up</span> <span class="pre">$</span> </code></p>
+</section>
+<section id="connect-to-control">
+<h3>Connect to Control<a class="headerlink" href="#connect-to-control" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">vagrant</span> <span class="pre">ssh</span> <span class="pre">control</span></code></p>
+</section>
+<section id="generate-and-distribute-lab-ssh-keys-with-ansible">
+<h3>Generate and Distribute Lab SSH Keys with Ansible<a class="headerlink" href="#generate-and-distribute-lab-ssh-keys-with-ansible" title="Permalink to this heading">¶</a></h3>
+<p>Playbooks live inside /vagrant/playbooks, so they can stay synced up with your project
+directory, yet stay separate from you virtual machine’s directory structure.</p>
+<p>The included Makefile will help you execute an ansible playbook that distributes a fresh
+SSH key to all the ‘lab’ hosts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source ~/ansible/bin/activate
+(ansible)$ cd /vagrant
+(ansible)$ make lab
+</pre></div>
+</div>
+</section>
+</section>
+<section id="what-to-do-next">
+<h2>What to do next?<a class="headerlink" href="#what-to-do-next" title="Permalink to this heading">¶</a></h2>
+<p>This project sets you up with a sensible, yet beefy, baseline environment to start playing with
+ansible.
+After running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">lab</span></code>, you can execute this, for example:
+<code class="docutils literal notranslate"><span class="pre">(ansible)$</span> <span class="pre">ansible</span> <span class="pre">all</span> <span class="pre">-i</span> <span class="pre">inventory</span> <span class="pre">-m</span> <span class="pre">ping</span></code>
+From the controller, you should have name resolution working via entries in <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code>.</p>
+</section>
+<section id="what-s-next-for-this-project">
+<h2>What’s next for this project<a class="headerlink" href="#what-s-next-for-this-project" title="Permalink to this heading">¶</a></h2>
+<p>The plan is to flesh out the ‘Client’ and ‘Service’ roles to include configuration playbooks
+for deploying and managing a variety of production-like services with Docker.</p>
+<p>Building this project is both professional development and free entertainment for myself.
+Using lightweight ansible notebooks, we an configure any number of things on top of this
+type of environment.</p>
+<p>The plan is to provide options in the Makefile to setup various system scenarios.
+By using VM Snapshots, you can build a catalog of scenarios that you can reuse to practice
+new strategies in System Administration with Ansible.</p>
+<section id="client">
+<h3>Client<a class="headerlink" href="#client" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Install either Debian or CentOS from PXE</p></li>
+<li><p>Managed sudo</p></li>
+<li><p>Network /home/${USER}</p></li>
+<li><p>Network shares for data-sets</p></li>
+<li><p>Configure VPN Acccess</p></li>
+</ul>
+</section>
+<section id="service">
+<h3>Service<a class="headerlink" href="#service" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>NFS: Shared storage between “Service” and “Client”</p></li>
+<li><p>DHCP: Configure “Client” networking options with isc-dhcp or kea (TBD)</p></li>
+<li><p>TFTP: Serve the network files necessary to boot with PXE</p></li>
+<li><p>DNS: Bind (Authoritative DNS) and Unbound (Recursive DNS Lookup)</p></li>
+<li><p>LDAP: Identity Management with FreeIPA</p></li>
+<li><p>VPN: Access your ‘client’ or ‘control’ host through a OpenVPN server</p></li>
+<li><p>Monitoring: ELK stack for exploring Syslog and Grafana Dashboards.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">billthewizard</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="About.html">Bill the Wizard</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Wizard Lab</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#networking">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-to-do-next">What to do next?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-next-for-this-project">What’s next for this project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Art.html">Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Biography.html">Biography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Home.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devops/index.html">Devops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devops/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="About.html" title="previous chapter">Bill the Wizard</a></li>
+      <li>Next: <a href="Art.html" title="next chapter">Art</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Bill Ashe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Wizardlab.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

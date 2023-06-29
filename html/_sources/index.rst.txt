@@ -1,0 +1,19 @@
+Bill the Wizard's Homepage
+=========================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   
+   About.md
+   Wizardlab.md
+   Art.md
+   Biography.md
+   Home.md
+   devops/index.rst
+
+Indices and tables
+==================
+* :ref:`search`
+* :ref:`genindex`

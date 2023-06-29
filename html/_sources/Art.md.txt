@@ -1,0 +1,46 @@
+# Art
+## 3D
+![doughnut](images/doughnut.jpg)
+![gallery](images/gallery.jpg)
+![nightmaretubbie-face](images/nightmaretubbie-face.jpg)
+![nightmaretubbie](images/nightmaretubbie.jpg)
+![nine-eleven](images/nine-eleven.jpg)
+## 2D
+![bernie](images/bernie.jpg)
+![daddy-penguin](images/daddy-penguin.jpg)
+![feelings](images/feelings.png)
+![meme-thing](images/meme-thing.jpg)
+![monkey](images/monkey.png)
+### Code I used to construct this .md file:
+```
+#/bin/sh
+#
+
+IMAGE_DIR=${PWD}/billthewizard.wiki/images;
+MARKDOWN_DIR=${PWD}/billthewizard.wiki/;
+
+echo "# Art" > Art.md;
+echo "## 3D" >> Art.md
+for f in ${IMAGE_DIR}/3d/*; do
+    [[ -e $f ]] || continue
+    \cp $f ${IMAGE_DIR}
+    echo \[\]$f | cut -d/ -f 9 >> Art.md
+done
+echo "## 2D" >> Art.md
+for f in ${IMAGE_DIR}/2d/*; do
+    [[ -e $f ]] || continue
+    echo $f | cut -d/ -f 9 >> Art.md
+    \cp $f ${IMAGE_DIR}
+done
+
+sed -i 's/\(.*\).jpg/![\1](images\/\0)/' Art.md;
+
+sed -i 's/\(.*\).png/![\1](images\/\0)/' Art.md;
+
+echo '### Code I used to construct this .md file:' >> Art.md
+echo \`\`\`>> Art.md
+cat ./image-page.sh >> Art.md
+echo \`\`\` >> Art.md
+
+mv Art.md ${MARKDOWN_DIR};
+```

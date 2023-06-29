@@ -1,0 +1,33 @@
+# Ansible Controller VM
+NOTE: This project is under development, and will be release soon.
+## What is Ansible?
+Ansible is an open source project backed by Redhat. The product has a 
+wide range of applications. Ansible can help automate anything that you would want to do with a computer: software testing, infrastructure configuration (Servers, Clients, Services, Network Devices), compliance and auditing, workload deployment.
+
+Ansible is "agentless," and it's built on top of SSH. If you can SSH a thing, you can probably automate it with Ansible.
+
+## Practice Makes Perfect
+A tool is only valuable when you understand how to use it effectively. Automating system configuration (Configuration Management) with Ansible might 
+require a variety of modules, connection methods, and design decisions.
+
+deploys an Ansible Controller Virtual Machine, desktop and development environment included.
+
+## Requirements
+- 64-bit Linux or Windows Host
+- 20-40GB+ Disk Space (Varies with use)
+- 8+GB RAM (Hypervisors love RAM)
+
+## The Vagrantfile
+Vagrant works with a variety of so-called "provisioners (AWS, Azure, etc.)
+and local machine hypervisors which they call "providers" (Virtualbox, VMware,
+VirtualBox, etc). The Vagrantfile contains instructions for building the VM. 
+This Vagrantfile is designed to work with two providers:
+- VirtualBox
+- libvirtd (Combined with virt-manager)
+
+## What's included in the Vagrantfile
+- Controller VM and Target built on Rocky 9 64-bit.
+- 32GB Disk and 4096MB RAM for the Controller VM
+- 16GB Disk and 2048MB RAM for the Target VM
+- Ready to use Python virtual environment for Ansible
+
