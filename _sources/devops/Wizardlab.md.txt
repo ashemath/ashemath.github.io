@@ -1,5 +1,6 @@
 # Wizard Lab
-[wizardlab Github page](https://www.github.com/ashemath/wizardlab)
+[github.com/ashemath/wizardlab](https://www.github.com/ashemath/wizardlab)
+
 *This project is under development, and designed only
 for training and testing purposes.*
 Multi-Machine training environment Vagrantfile

@@ -7,7 +7,6 @@ Bill the Wizard's Homepage
 
    
    About.md
-   Wizardlab.md
    Art.md
    Biography.md
    Home.md
