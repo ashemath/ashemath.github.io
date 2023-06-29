@@ -1,6 +1,6 @@
 # Bill the Wizard
 Nerd, Father, Legend.
-![The Wizard](images/wizard.jpg)
+![The Wizard](images/profile/wizard.jpg)
 
 I work as a System and Network Administrator for a Public University. Our small team of Administrators manage 150+ Desktop systems, infrastructure hosts, and a range of workloads deployed on: Baremetal, Virtual Machines, and containers. My specialized role on the team is Network administration, but I participate in a wide range of projects including infrastructure monitoring, public documentation, hardware troubleshooting, and the delivery of various networked services.
 

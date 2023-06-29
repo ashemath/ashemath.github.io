@@ -1,0 +1,13 @@
+Devops
+=========================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   
+   Wizardlab.md
+   
+Indices and tables
+==================
+* :ref:`search`
+* :ref:`genindex`
