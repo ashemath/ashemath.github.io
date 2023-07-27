@@ -1,18 +1,81 @@
-Bill the Wizard's Homepage
-=========================================
+Bill the Wizard
+=====================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
 
    
-   About.md
    Art.md
    Biography.md
-   Home.md
-   devops/index.rst
+   devops/Wizardlab.md
+   
+Nerd, Father, Legend.
+----------------------
 
-Indices and tables
-==================
-* :ref:`search`
-* :ref:`genindex`
+.. image:: images/profile/wizard.jpg
+   :width: 300pt
+
+I work as a System and Network Administrator for a Public University. Our small team of Administrators manage 150+ Desktop systems, infrastructure hosts, and a range of workloads.
+
+We deploy onto baremetal, virtual machines, and containers. My specialized role on the team is Network administration, but I participate in a wide range of projects including infrastructure monitoring,
+public documentation, hardware troubleshooting, and the delivery of various networked services. Lately, I have learned how to manage both Linux and Windows systems with Ansible.
+
+From my Linux workstation, I can image and configure lab machines in either Windows or Linux, at scale.
+I manage network equipment, host network configuration, and network services with SSH and Ansible.
+
+I share my personal training/development environment on Github. In my code, I deploy virtual machines, 
+and I automate configuration of services; this collection of code serves as a repository of system
+administration ideas, testing ground for new configuration, and display of my skill development.
+
+Learn more about `Wizardlab`_
+
+Prior to working for the University, I taught Linux and Cisco Networking for Job Corps as the instructor/designer of their "Advanced IT" trade.
+
+Why Bill the Wizard?
+---------------------
+Computers and networking technologies drive solutions to problems in our daily lives,
+yet the goal of our implementations with these technologies center around making them as transparent to the end user as possible.
+The work is all about making the things happen "automagically."
+The end-user wants to click a link and have all of these amazing things happen, without needing insight into the underlying configuration 
+that's necessary to do the thing.
+
+Complex technical solutions to real-world problems often include: 
+
+- Cable and Power management
+- Network Device Configuration
+- Host Networking Configuration
+- Hypervising and Containerization
+- File Storage services
+- System Updates and Backups
+- Git
+- CI/CD Pipelines
+- Configuration Managemen
+- Container image registry
+- Application Development (Multiple Languages, Multiple Platforms, Multiple Architectures)
+- Application Configuratio
+- Application Deployment
+
+I strive to be someone who understands things at this level: a wizard. Someone who invokes daemons and memorizes incantations.
+There is always more to learn. Things change over time, both subtle changes and major re-imaginings of entire system processes.
+Mastering the art of System Administration is site specific, Operating System specific, scale-specific, network specific, and
+user demands change over time: week to week, month to month, day-to-day, and hour-to-hour.
+
+Managing a collection of computer systems is really fun. A customized faculty research workstation requires a different touch than a general 
+purpose lab machine. Infrastructure hosts require a whole other skillset. Managing all of these systems in concert is a study of
+the art of system administration.
+
+I understand that I'll toil for decades learning these things, and I am fine with that.
+
+Teacher and Computer/Network Expert
+-------------------------------------
+I had a 10 year career as an educator before changing fields to work as a System/Network Admin. After College, I taught Adult Basic Education Mathemmatics for Job Corps
+After about 4 years, our campus shut down between contractors, and I went to work as an Elementary teacher.
+
+After teaching 5th and 6th grade for the two years, I went back to work at Job Corps as an IT instructor.
+I supervised studies in Game Development, Web Development, Graphic Design, Computer Help Desk, Networking, and Linux System Administration. 
+During my tenure as an IT instructor, I achieved CompTIA A+, Network+, Security+, and Linux+, and the Cisco CCNA in June 2022.
+
+.. _Wizardlab: devops/Wizardlab
+
