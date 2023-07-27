@@ -10,9 +10,10 @@ Prior to working for the University, I taught Linux and Cisco Networking for Job
 Computers and networking technologies drive solutions to problems in our daily lives,
 yet the goal of our implementations with these technologies center around making them as transparent to the end user as possible.
 The work is all about making the things happen "automagically."
-The end-user wants to click a link and have all of these amazing things happen, without needing insight into the underlying configuration that's necessary to do the thing.
+The end-user wants to click a link and have all of these amazing things happen, without needing insight into the underlying configuration 
+that's necessary to do the thing.
 
-Complex technical solutions to real-world problems require a rich combination of: 
+Complex technical solutions to real-world problems often include: 
 - Cable and Power management
 - Network Device Configuration
 - Host Networking Configuration
@@ -21,6 +22,7 @@ Complex technical solutions to real-world problems require a rich combination of
 - System Updates and Backups
 - Git
 - CI/CD Pipelines
+- Configuration Management
 - Container image registry
 - Application Development (Multiple Languages, Multiple Platforms, Multiple Architectures)
 - Application Configuration
@@ -46,4 +48,3 @@ I have supervised studies in Game Development, Web Development, Graphic Design, 
 and Computer Programming.
 
 I have a CompTIA A+, Network+, Security+, and Linux+, and I have a Cisco CCNA that I achieved June 2022.
-
