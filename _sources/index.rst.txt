@@ -77,5 +77,5 @@ After teaching 5th and 6th grade for the two years, I went back to work at Job C
 I supervised studies in Game Development, Web Development, Graphic Design, Computer Help Desk, Networking, and Linux System Administration. 
 During my tenure as an IT instructor, I achieved CompTIA A+, Network+, Security+, and Linux+, and the Cisco CCNA in June 2022.
 
-.. _Wizardlab: devops/Wizardlab
+.. _Wizardlab: devops/Wizardlab.html
 
