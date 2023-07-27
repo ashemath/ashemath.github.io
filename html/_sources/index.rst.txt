@@ -51,7 +51,7 @@ Complex technical solutions to real-world problems often include:
 - System Updates and Backups
 - Git
 - CI/CD Pipelines
-- Configuration Managemen
+- Configuration Management
 - Container image registry
 - Application Development (Multiple Languages, Multiple Platforms, Multiple Architectures)
 - Application Configuratio
