@@ -1,0 +1,120 @@
+=========================
+Hypervisors
+=========================
+
+Bill's Ideas about different Hypervisors
+
+Type-1 and Type-2: Bill's Definitions
+######################################
+
+**Type-1**
+    Type-1 hypervisors enables Virtual Machines direct access to hardware
+    resources. Usually, a Type-1 hypervisor consists of an operating system. VMware
+    EXSI, ProxMox, Libvirt, and Windows Hyper-V are examples of Type-1 hypervisors.
+**Type-2**
+    Type-2 hypervisors have less privileged access to system hardware. While a type-1
+    hypervisor may offer raw disk space to a VM in the form of a Logical Volume,
+    a Type-2 Hypervisor is usually limited to file formats that sit on top of an
+    intermediate file system like: .qcow, .vdi, or .vmdk
+    Type-2 hypervisors have less privileged access to system CPU, RAM, networking, etc.
+
+The overhead of type-2 hypervisors is minimal on today's hardware, but for the best
+performance, you will want to go with Type-1. Type-1 systems will get the most out of
+your hardware, but Type-2 are easier for individual users to manage.
+
+Bill's Strategy
+################
+
+I prefer Libvirt/KVM. It's a performant and reliable Type-1 hypervisor. Ubuntu,
+Debian, and RHEL-based disributions support Libvirt/KVM virtual machines, and the
+virt-manager package give you a simple interface on your GUI that you can access
+most of it's powerful features.
+
+When I need to host a VM on a production server, I can easily move a Libvirt\KVM
+virtual machine. Moving a VM built on a type-2 product like VirtualBox onto a 
+production hypervisor can be tricky, and might there may be licensing fees consider
+if you need to to operate efficiently.
+
+Libvirt/KVM operates well in a development environment, and the work you do will
+be easy to translate into production. Networking options are a bit limited without
+knowledge of Linux networking, but I see this as a feature that makes it a tool
+people can use to develop their networking knowledge.
+
+Once you figure out how to configure Linux bridges, the training wheels can come off,
+and you can start to hit things on the outside network.
+
+Tools like Hashicorp's Vagrant intergrate with Libvirt/KVM, similiar to how they work
+with Virtualbox or VMware Workstation. Adopting Libvirt/KVM has allowed me to build
+tools that I can easily deploy into production.
+
+The Options:
+###############
+
+Virtualbox
+___________
+
+**Compatible Operating Systems**: Virtualbox can be installed on top of either Windows
+or Linux.
+
+Virtualbox is a versatile, reliable, and easy to use type-2 hypervisor. Virtualbox is
+a product that's backed by Oracle, the 900 pound gorilla of unix-driven database servers.
+ 
+Virtualbox is free to use for personal and commercial use (although it's features are somewhat limited unless you use the "Extension pack" which should not be use in prodution without the paid license.
+
+Online IT coursework will often recommend Virtualbox as an easy to install
+hypervisor that can import/export the OCI format .ova virtual machine files. 
+A Virtualbox .ova can hold all the virtual disk files along with the necessary
+configuration data to stand up the Virtual Machine on any computer with the
+required hardware resources and Virtualbox installed.
+
+Someone can develop a course based around a Virtual Machine is pre-configured,
+and someone who doesn't have a lot of experience with Virtualiation can easily
+get the VM running and connected to the internet.
+
+VMware
+___________________
+
+**VMware EXSI**:
+    EXSI is the baremetal type-1 operating system product from VMware that we
+    build a VCenter private cloud on top of. VCenter integrates neatly with
+    Microsoft Server's Active Directory Directory Services: this make a ton of
+    sense for a lot of organizations, and VMware has dominated the realm of
+    organizations that might need to run a handful of servers in a number of
+    places.
+
+**VMware Workstation**:
+    VWware Workstation is the Type-2 hyperisor from VMware. Working with
+    VMware Workstation gives you a leg up if you happen to have EXSI and
+    VCenter on your infrastructure. Also, Workstation has lots of options for
+    building portable VM resources. You can setup your VM to be compatible
+    with the version of EXSI you have running in production, and you can
+    deploy your VM appliance right onto your production resources.
+
+VMware's products make maintaining reliable hypervisors feasible for
+organizations that need production virtualization sooner than later. Someone with limited end-user Windows experience and enough networking knowledge can easily get a cluster of VMware EXSI hypervisors running.
+
+At work, we use open-source platforms to perform virtualization services; this
+lets us orient our budget around hardware instead of licensing fees. Running
+on open-source platforms means that we need to work a bit harder at understanding our tools, and specialized knowledge of Linux and networking is required to operate safely.
+
+How Bill got good with Hypervisors
+####################################
+
+My first experience with virtual machines consisted of downloading Virtualbox, acquiring a
+Windows XP .iso file, and installing a VM version of what my laptop was running. I observed
+how my IP address changed, and I investigated how I could network between my laptop and this
+little system running on Virtualbox. Later, I tried installing Fedora Linux, and I was inspired
+to setup a Dual-Boot system on my gaming PC with Winows XP and Fedora 11.
+
+My career as an educator kept me far away from production hypervisors until I assumed the role of Advanced IT instructor for Job Corps. They bought 8 production-grade servers, and tasked
+me with learning to run hypervisors on them. I setup a complete Virtual
+Desktop Infrasture with 2 Windows Hyper-V servers, a small cluster of VMware
+EXSI, and a cluster of Proxmox Debian-based systems.
+
+Active Directory, DNS, and DHCP  servers ran on Hyper-V, Ubuntu desktops ran on Proxmox, and student projects ran on VCenter/EXSI. I configured a mix of
+Netgear, Cisco, and Fortinet networking devices to get them all working
+together. Windows stood up the vital network services, Proxmox hosted Linux-
+based solutions, and VMware provided the accessible interface that my students
+could leverage with a little training.
+
+

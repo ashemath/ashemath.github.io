@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Hypervisors &#8212; Bill the Wizard&#39;s Homepage</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Wizardlab’s Configuration Playbooks" href="Playbooks.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="hypervisors">
+<h1>Hypervisors<a class="headerlink" href="#hypervisors" title="Permalink to this heading">¶</a></h1>
+<p>Bill’s Ideas about different Hypervisors</p>
+<section id="type-1-and-type-2-bill-s-definitions">
+<h2>Type-1 and Type-2: Bill’s Definitions<a class="headerlink" href="#type-1-and-type-2-bill-s-definitions" title="Permalink to this heading">¶</a></h2>
+<dl class="simple">
+<dt><strong>Type-1</strong></dt><dd><p>Type-1 hypervisors enables Virtual Machines direct access to hardware
+resources. Usually, a Type-1 hypervisor consists of an operating system. VMware
+EXSI, ProxMox, Libvirt, and Windows Hyper-V are examples of Type-1 hypervisors.</p>
+</dd>
+<dt><strong>Type-2</strong></dt><dd><p>Type-2 hypervisors have less privileged access to system hardware. While a type-1
+hypervisor may offer raw disk space to a VM in the form of a Logical Volume,
+a Type-2 Hypervisor is usually limited to file formats that sit on top of an
+intermediate file system like: .qcow, .vdi, or .vmdk
+Type-2 hypervisors have less privileged access to system CPU, RAM, networking, etc.</p>
+</dd>
+</dl>
+<p>The overhead of type-2 hypervisors is minimal on today’s hardware, but for the best
+performance, you will want to go with Type-1. Type-1 systems will get the most out of
+your hardware, but Type-2 are easier for individual users to manage.</p>
+</section>
+<section id="bill-s-strategy">
+<h2>Bill’s Strategy<a class="headerlink" href="#bill-s-strategy" title="Permalink to this heading">¶</a></h2>
+<p>I prefer Libvirt/KVM. It’s a performant and reliable Type-1 hypervisor. Ubuntu,
+Debian, and RHEL-based disributions support Libvirt/KVM virtual machines, and the
+virt-manager package give you a simple interface on your GUI that you can access
+most of it’s powerful features.</p>
+<p>When I need to host a VM on a production server, I can easily move a LibvirtKVM
+virtual machine. Moving a VM built on a type-2 product like VirtualBox onto a
+production hypervisor can be tricky, and might there may be licensing fees consider
+if you need to to operate efficiently.</p>
+<p>Libvirt/KVM operates well in a development environment, and the work you do will
+be easy to translate into production. Networking options are a bit limited without
+knowledge of Linux networking, but I see this as a feature that makes it a tool
+people can use to develop their networking knowledge.</p>
+<p>Once you figure out how to configure Linux bridges, the training wheels can come off,
+and you can start to hit things on the outside network.</p>
+<p>Tools like Hashicorp’s Vagrant intergrate with Libvirt/KVM, similiar to how they work
+with Virtualbox or VMware Workstation. Adopting Libvirt/KVM has allowed me to build
+tools that I can easily deploy into production.</p>
+</section>
+<section id="the-options">
+<h2>The Options:<a class="headerlink" href="#the-options" title="Permalink to this heading">¶</a></h2>
+<section id="virtualbox">
+<h3>Virtualbox<a class="headerlink" href="#virtualbox" title="Permalink to this heading">¶</a></h3>
+<p><strong>Compatible Operating Systems</strong>: Virtualbox can be installed on top of either Windows
+or Linux.</p>
+<p>Virtualbox is a versatile, reliable, and easy to use type-2 hypervisor. Virtualbox is
+a product that’s backed by Oracle, the 900 pound gorilla of unix-driven database servers.</p>
+<p>Virtualbox is free to use for personal and commercial use (although it’s features are somewhat limited unless you use the “Extension pack” which should not be use in prodution without the paid license.</p>
+<p>Online IT coursework will often recommend Virtualbox as an easy to install
+hypervisor that can import/export the OCI format .ova virtual machine files.
+A Virtualbox .ova can hold all the virtual disk files along with the necessary
+configuration data to stand up the Virtual Machine on any computer with the
+required hardware resources and Virtualbox installed.</p>
+<p>Someone can develop a course based around a Virtual Machine is pre-configured,
+and someone who doesn’t have a lot of experience with Virtualiation can easily
+get the VM running and connected to the internet.</p>
+</section>
+<section id="vmware">
+<h3>VMware<a class="headerlink" href="#vmware" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><strong>VMware EXSI</strong>:</dt><dd><p>EXSI is the baremetal type-1 operating system product from VMware that we
+build a VCenter private cloud on top of. VCenter integrates neatly with
+Microsoft Server’s Active Directory Directory Services: this make a ton of
+sense for a lot of organizations, and VMware has dominated the realm of
+organizations that might need to run a handful of servers in a number of
+places.</p>
+</dd>
+<dt><strong>VMware Workstation</strong>:</dt><dd><p>VWware Workstation is the Type-2 hyperisor from VMware. Working with
+VMware Workstation gives you a leg up if you happen to have EXSI and
+VCenter on your infrastructure. Also, Workstation has lots of options for
+building portable VM resources. You can setup your VM to be compatible
+with the version of EXSI you have running in production, and you can
+deploy your VM appliance right onto your production resources.</p>
+</dd>
+</dl>
+<p>VMware’s products make maintaining reliable hypervisors feasible for
+organizations that need production virtualization sooner than later. Someone with limited end-user Windows experience and enough networking knowledge can easily get a cluster of VMware EXSI hypervisors running.</p>
+<p>At work, we use open-source platforms to perform virtualization services; this
+lets us orient our budget around hardware instead of licensing fees. Running
+on open-source platforms means that we need to work a bit harder at understanding our tools, and specialized knowledge of Linux and networking is required to operate safely.</p>
+</section>
+</section>
+<section id="how-bill-got-good-with-hypervisors">
+<h2>How Bill got good with Hypervisors<a class="headerlink" href="#how-bill-got-good-with-hypervisors" title="Permalink to this heading">¶</a></h2>
+<p>My first experience with virtual machines consisted of downloading Virtualbox, acquiring a
+Windows XP .iso file, and installing a VM version of what my laptop was running. I observed
+how my IP address changed, and I investigated how I could network between my laptop and this
+little system running on Virtualbox. Later, I tried installing Fedora Linux, and I was inspired
+to setup a Dual-Boot system on my gaming PC with Winows XP and Fedora 11.</p>
+<p>My career as an educator kept me far away from production hypervisors until I assumed the role of Advanced IT instructor for Job Corps. They bought 8 production-grade servers, and tasked
+me with learning to run hypervisors on them. I setup a complete Virtual
+Desktop Infrasture with 2 Windows Hyper-V servers, a small cluster of VMware
+EXSI, and a cluster of Proxmox Debian-based systems.</p>
+<p>Active Directory, DNS, and DHCP  servers ran on Hyper-V, Ubuntu desktops ran on Proxmox, and student projects ran on VCenter/EXSI. I configured a mix of
+Netgear, Cisco, and Fortinet networking devices to get them all working
+together. Windows stood up the vital network services, Proxmox hosted Linux-
+based solutions, and VMware provided the accessible interface that my students
+could leverage with a little training.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">billthewizard</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Art.html">Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Biography.html">Biography</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Devops</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Devops.html">Devops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Wizardlab.html">Wizard Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Playbooks.html">Wizardlab’s Configuration Playbooks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hypervisors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#exploring-wizardlab">Exploring Wizardlab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#bill-s-take-on-hypervisors">Bill’s take on Hypervisors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#bill-s-ansible-adventure">Bill’s Ansible Adventure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#my-devops-story">My DevOps Story</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Devops</a><ul>
+      <li>Previous: <a href="Playbooks.html" title="previous chapter">Wizardlab’s Configuration Playbooks</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Bill Ashe.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/devops/Hypervisors.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

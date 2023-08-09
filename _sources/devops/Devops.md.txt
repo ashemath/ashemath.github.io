@@ -1,22 +1,7 @@
-Devops
-=====================
+# Devops
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   :hidden:
-   :titlesonly:
+## Wizardlab
 
-   
-   Devops.md
-   Wizardlab.md
-   Playbooks.md
-   Hypervisors.rst
-
-   
-
-Exploring Wizardlab
-----------------------
 The Wizardlab is a labor of love. I started the  multi-machine vagrant
 project as a way to practice the art of System Administration in a public
 manner.
@@ -24,19 +9,17 @@ manner.
 I use the Wizardlab as starting point when I decide to embark on a mission to
 install/configure a new service or application.
 
-- `Wizard Lab <Wizardlab.html>`_
-- `github.com/ashemath/wizardlab <https://www.github.com/ashemath/wizardlab>`_
+- [wizardlab](Wizardlab.md)
+- [github.com/ashemath/wizardlab](https://www.github.com/ashemath/wizardlab)
 
-Bill's take on Hypervisors
-----------------------------
+## Bill's take on Hypervisors
 
 Hypervisors are one of my favorite tools. A hypervisor takes a computer and
 divides up the resources for multiple virtual systems to use (VMs).
 
-- `Hypervisors <Hypervisors.html>`_
+- [Hypervisors](/devops/Hypervisors.rst)
 
-Bill's Ansible Adventure
---------------------------
+## Bill's Ansible Adventure
 
 Ansible is the Python-driven cross-platform automation solution from Redhat.
 The scripts for Ansible is done in yaml, and the tool imports variables from
@@ -46,10 +29,9 @@ Ansible parses a host inventory file, and will dynamically assign
 configuration based on properties of the host it targets. Groups of hosts
 can be assigned and nested to create practically anything.
 
-- `Wizardlab's Configuration Playbooks <Playbooks.html>`_
+- [Wizardlab's Configuration Playbooks ](Playbooks.md)
 
-My DevOps Story
------------------
+## My DevOps Story
 
 I fell in love with DevOps through the instructor training coursework that
 I took during my tenure as an IT teacher. Before taking the instructor

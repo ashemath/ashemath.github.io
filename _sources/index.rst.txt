@@ -9,7 +9,7 @@ Bill the Wizard
    
    Art.md
    Biography.md
-   devops/Wizardlab.md
+   devops/index.rst
    
 Nerd, Father, Legend.
 ----------------------

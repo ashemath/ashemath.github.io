@@ -17,7 +17,8 @@
     <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Biography" href="../Biography.html" />
+    <link rel="next" title="Wizardlab’s Configuration Playbooks" href="Playbooks.html" />
+    <link rel="prev" title="Devops" href="Devops.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -43,20 +44,22 @@ Multi-Machine training environment Vagrantfile</p>
 <section id="features">
 <h2>Features:<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Debian Bookworm featuring an XFCE4 desktop</p></li>
+<li><p>Multi-Machine Vagrantfile, featuring Debian 12</p></li>
 <li><p>Control: 2 CPU, 2GB ram, 20GB Virtual Disk</p></li>
 <li><p>Service: 4 CPU, 4GB ram, 20GB Virtual Disk</p></li>
-<li><p>Client: 2 CPU, 2GB ram, 20GB Virtual Disk</p></li>
+<li><p>Client: 2 CPU, 4 GB ram, 20GB VIrtual Disk, EFI Boot Client</p></li>
 </ul>
 </section>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Linux OS (Need to test on Windows)</p></li>
-<li><p>Virtualbox or Libvirt/KVM</p></li>
+<li><p>Libvirt/KVM</p></li>
 <li><p>Vagrant and the the vagrant-libvirt plugin if using libvirt.</p></li>
+<li><p>Minimum 4 core system for good performance.</p></li>
+<li><p>Tested on Debian, Ubuntu, and Fedora systems.</p></li>
 <li><p>Up to 8GB of RAM (16GB system RAM recommended)</p></li>
-<li><p>Up to 60 GB Storage</p></li>
+<li><p>Minimum 30GB storage (Up to 60GB depending on usage).</p></li>
 </ul>
 </section>
 <section id="networking">
@@ -65,24 +68,127 @@ Multi-Machine training environment Vagrantfile</p>
 the Virtual NIC Vagrant uses to provision hosts may vary, but
 this file sets up a secondary network adapter on each machine that
 sits on the network 192.168.56.0/24</p>
-<p>Control: 192.168.56.2
-Service: 192.168.56.3
-Client: 192.168.56.4</p>
-<p>The Control host will have a ready to use installation of Ansible
-in a Python virtual environment at /home/vagrant/ansible</p>
+<ul class="simple">
+<li><p>Control: 192.168.56.2</p></li>
+<li><p>Service: 192.168.56.3</p></li>
+<li><p>Client: 192.168.56.10</p></li>
+</ul>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h2>
+<p>The project is designed to be a flexible place to setup a fresh environment and test out
+ansible playbooks. Controller and Services both have full Debian Bookworm installs,
+the Client machine is a PXE test machine, for debugging netboot.xyz menus.</p>
+<section id="control">
+<h3>Control<a class="headerlink" href="#control" title="Permalink to this heading">¶</a></h3>
+<p>The Control host will have a ready to use installation of Ansible in a Python
+virtual environment. Just <code class="docutils literal notranslate"><span class="pre">vagrant</span> <span class="pre">ssh</span> <span class="pre">control</span></code> to connect to the control VM,
+and <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">ansible/bin/activate</span></code> to start using Ansible commands.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ansible all -i inventory -m ping
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">control</span> <span class="o">|</span> <span class="n">SUCCESS</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;ansible_facts&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;discovered_interpreter_python&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/bin/python3&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;changed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;ping&quot;</span><span class="p">:</span> <span class="s2">&quot;pong&quot;</span>
+<span class="p">}</span>
+<span class="n">services</span> <span class="o">|</span> <span class="n">SUCCESS</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;ansible_facts&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;discovered_interpreter_python&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/bin/python3&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;changed&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;ping&quot;</span><span class="p">:</span> <span class="s2">&quot;pong&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="services">
+<h3>Services<a class="headerlink" href="#services" title="Permalink to this heading">¶</a></h3>
+<p>The services VM is a target for infrastructure configuration. Think of it as a blank slate
+for you to test configuration against. Service knows about controller by its <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code></p>
+<p>Playbooks targeting the services VM are found throughout the playbooks, and many of the
+infrasture configurations are just variations on setting up the services VM.</p>
+</section>
+</section>
+<section id="pxe">
+<h2>PXE<a class="headerlink" href="#pxe" title="Permalink to this heading">¶</a></h2>
+<p>The PXE make target gives you a simple to setup PXE boot server that allows you to try
+out different unix-based operating systems.
+TFTP, DHCP, and a configured self-hosted install of netboot.xyz.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vagrant ssh control
+$ make keys
+$ make pxe
+</pre></div>
+</div>
+<p>Next, boot up the Client VM on your Host:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">up</span> <span class="n">client</span>
+</pre></div>
+</div>
+<p>The Client machine is configured to PXE boot, so it will hang on step where it tries to inject
+the SSH key. It will be trying to PXE boot. Open up <code class="docutils literal notranslate"><span class="pre">virt-manager</span></code> and try out the netboot.xyz menus.</p>
+<p>If you got the menu working, try setting up a beefier virtual machine from scratch on the ‘wizardlab’ virtual network.</p>
+</section>
+<section id="imaging">
+<h2>Imaging<a class="headerlink" href="#imaging" title="Permalink to this heading">¶</a></h2>
+<p>The imaging environment gives you a Debian PXE boot server with a Clonezilla Live PXE
+environment added ontop of it. Place a customized initramfs into the
+playbooks/roles/pxe/files/clonezilla/ directory if you want to go down the road of building
+a customized clonezilla live.</p>
+<p>The imaging role will setup NFS services between the UEFI PXE client and your <code class="docutils literal notranslate"><span class="pre">service</span></code>
+VM, so you can transfer files that you generate with Clonezilla, utilizing the storage
+space on your developer workstation.</p>
+<p>NOTE: The NFS shared with Clonezilla is read-only because of the limitations for chained NFS.
+If you would like to save disks, you can work out how to connect with RW using SSH to one of
+the VM’s, or you can setup a static NFS share on your hypervisor machine for the ./clonezilla
+directory. I usually use SSH because it’s easy to setup.</p>
+<p>To setup the imaging environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vagrant ssh control
+$ make keys
+$ make imaging
+</pre></div>
+</div>
+<p>Connect your reference VM to the “wizardlab0” network in your virt-manager settings, and do
+a UEFI PXE boot. You can select <code class="docutils literal notranslate"><span class="pre">Clonezilla</span> <span class="pre">Live</span> <span class="pre">x86</span></code> from the GRUB menu, and save/restore
+disk images to your heart’s content.</p>
+<p>You could use this system to build a custom imaging pipeline, for example. I have deployed both
+Linux and Windows using a similar system on production systems.</p>
 </section>
 <section id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h2>
-<section id="install-nfs-server">
-<h3>Install NFS Server<a class="headerlink" href="#install-nfs-server" title="Permalink to this heading">¶</a></h3>
-<p>To use the default folder sync, you will need to install NFS.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt update
-$ sudo apt install -y nfs-kernel-server
+<section id="setup-libvirt-kvm">
+<h3>Setup libvirt\KVM<a class="headerlink" href="#setup-libvirt-kvm" title="Permalink to this heading">¶</a></h3>
+<p>Look up the best practice for installing Libvirt/KVM. For example,
+in Ubuntu, you might do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt install -y qemu-kvm virt-manager libvirt-daemon-system virtinst libvirt-clients bridge-utils
+$ sudo systemctl enable --now libvirtd
 </pre></div>
 </div>
-<p>Vagrant will manage the NFS exports for you, but you will need to be prepared to enter
-your sudo credentials when it goes to mount the shares. The shares are networked
-over the host-only interface that the VMs share with your host environment.</p>
+<p>On Fedora, the key command is something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo dnf group install --with-optional virtualization
+$ sudo systemctl enable --now libvirtd
+</pre></div>
+</div>
+<p>To check if kvm is loaded:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ lsmod | grep kvm
+kvm_intel             458752  6
+kvm                  1323008  1 kvm_intel
+irqbypass              16384  21 kvm
+</pre></div>
+</div>
+</section>
+<section id="setup-vagrant">
+<h3>Setup Vagrant<a class="headerlink" href="#setup-vagrant" title="Permalink to this heading">¶</a></h3>
+<p>Follow the instructions for your Host OS on this page:
+<a class="reference external" href="https://developer.hashicorp.com/vagrant/downloads">developer.hashicorp.com/vagrant/downloads</a></p>
+<p>Install the vagrant-libvirtd plugin:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vagrant plugin install vagrant-libvirt
+</pre></div>
+</div>
 </section>
 <section id="install-git-if-needed">
 <h3>Install Git if needed:<a class="headerlink" href="#install-git-if-needed" title="Permalink to this heading">¶</a></h3>
@@ -96,7 +202,7 @@ $ cd wizardlab
 </section>
 <section id="start-up-the-machine">
 <h3>Start up the machine<a class="headerlink" href="#start-up-the-machine" title="Permalink to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">vagrant</span> <span class="pre">up</span> <span class="pre">$</span> </code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">vagrant</span> <span class="pre">up</span></code></p>
 </section>
 <section id="connect-to-control">
 <h3>Connect to Control<a class="headerlink" href="#connect-to-control" title="Permalink to this heading">¶</a></h3>
@@ -108,9 +214,7 @@ $ cd wizardlab
 directory, yet stay separate from you virtual machine’s directory structure.</p>
 <p>The included Makefile will help you execute an ansible playbook that distributes a fresh
 SSH key to all the ‘lab’ hosts.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source ~/ansible/bin/activate
-(ansible)$ cd /vagrant
-(ansible)$ make lab
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make keys
 </pre></div>
 </div>
 </section>
@@ -119,9 +223,13 @@ SSH key to all the ‘lab’ hosts.</p>
 <h2>What to do next?<a class="headerlink" href="#what-to-do-next" title="Permalink to this heading">¶</a></h2>
 <p>This project sets you up with a sensible, yet beefy, baseline environment to start playing with
 ansible.
-After running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">lab</span></code>, you can execute this, for example:
-<code class="docutils literal notranslate"><span class="pre">(ansible)$</span> <span class="pre">ansible</span> <span class="pre">all</span> <span class="pre">-i</span> <span class="pre">inventory</span> <span class="pre">-m</span> <span class="pre">ping</span></code>
-From the controller, you should have name resolution working via entries in <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code>.</p>
+After running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">keys</span></code>, you can execute this, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>source ansible/bin/activate
+(ansible)$ ansible all -i inventory -m ping
+</pre></div>
+</div>
+<p>Since the <code class="docutils literal notranslate"><span class="pre">vagrant</span></code> user has password-free sudo access on the VMs, your playbooks should be able
+to elevate privileges with the ‘become’ option, without entering a password. You should have name resolution working via entries in <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code>.</p>
 </section>
 <section id="what-s-next-for-this-project">
 <h2>What’s next for this project<a class="headerlink" href="#what-s-next-for-this-project" title="Permalink to this heading">¶</a></h2>
@@ -136,9 +244,7 @@ new strategies in System Administration with Ansible.</p>
 <section id="client">
 <h3>Client<a class="headerlink" href="#client" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
-<li><p>Install either Debian or CentOS from PXE</p></li>
-<li><p>Managed sudo</p></li>
-<li><p>Network /home/${USER}</p></li>
+<li><p>Networked <code class="docutils literal notranslate"><span class="pre">/home/${USER}</span></code></p></li>
 <li><p>Network shares for data-sets</p></li>
 <li><p>Configure VPN Acccess</p></li>
 </ul>
@@ -147,8 +253,6 @@ new strategies in System Administration with Ansible.</p>
 <h3>Service<a class="headerlink" href="#service" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>NFS: Shared storage between “Service” and “Client”</p></li>
-<li><p>DHCP: Configure “Client” networking options with isc-dhcp or kea (TBD)</p></li>
-<li><p>TFTP: Serve the network files necessary to boot with PXE</p></li>
 <li><p>DNS: Bind (Authoritative DNS) and Unbound (Recursive DNS Lookup)</p></li>
 <li><p>LDAP: Identity Management with FreeIPA</p></li>
 <li><p>VPN: Access your ‘client’ or ‘control’ host through a OpenVPN server</p></li>
@@ -179,13 +283,15 @@ new strategies in System Administration with Ansible.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Art.html">Art</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Biography.html">Biography</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Wizard Lab</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#features">Features:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#networking">Networking</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-to-do-next">What to do next?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-s-next-for-this-project">What’s next for this project</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Devops</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Devops.html">Devops</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Wizard Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Playbooks.html">Wizardlab’s Configuration Playbooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hypervisors.html">Hypervisors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#exploring-wizardlab">Exploring Wizardlab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#bill-s-take-on-hypervisors">Bill’s take on Hypervisors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#bill-s-ansible-adventure">Bill’s Ansible Adventure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#my-devops-story">My DevOps Story</a></li>
 </ul>
 </li>
 </ul>
@@ -194,7 +300,10 @@ new strategies in System Administration with Ansible.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../Biography.html" title="previous chapter">Biography</a></li>
+  <li><a href="index.html">Devops</a><ul>
+      <li>Previous: <a href="Devops.html" title="previous chapter">Devops</a></li>
+      <li>Next: <a href="Playbooks.html" title="next chapter">Wizardlab’s Configuration Playbooks</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

@@ -1,0 +1,97 @@
+# Wizardlab's Configuration Playbooks
+
+The Wizardlab project consists of a multi-machine Vagrantfile, a collection of
+Ansible playbooks, and a Makefile
+
+## The Makefile
+
+I define how to configure the VMs with Ansible through a Makefile. The Makefile
+that instructs make (`man make`) to execute targets. This utility is typically
+used for defining how to compile source-code into binary executable files, but we
+use it as another layer of automation. See [wizardlab/Makefile](https://github.com/ashemath/wizardlab/blob/main/Makefile)
+
+While working out of either `/home/vagrant` or `/vagrant/` This command will run 
+a playbook that regenerates SSH keys
+
+```
+$ make keys
+
+```
+
+While this one will setup a Debian PXE installation environment
+```
+$ make pxe
+
+```
+This takes things a step further, and we setup a Clonezilla based imaging
+environment.
+```
+$ make imaging
+```
+
+Wizardlab is designed to automate standing up a set of services, so
+you can get right into your configuration idea. 
+
+## The Ansible Directory Structure
+
+Ansible configuration directories can be organized a number of ways, but let's
+suppose I have two roles (role0 and role1) that I design to setup two services:
+service0 and service1.
+
+Let's say I have a testing inventory called test-inventory, and a folder
+with various 'production' host inventory files organized by infrastrucure
+context. For example 1-cluster targets machines in the compute cluster while 
+3-research.yml targets research desktops.
+
+
+```
+test-inventory          #  If we pass a single file as the inventory, it runs just one. 
+inventory/              #  If you pass a folder as your inventory file, it runs multiple.
+  0-desktops            #  We can prefix our files to manipulate the order
+  1-cluster             #  ini format is a row separated list of hosts, "simple"
+  2-openstack.yml       #  yml format is avaiable too. Nice for compicated structures.
+  3-research.yml        #  Pick a format you like. Either one works the same.
+  group_vars/           #  Have multiple files to organize variables to apply to groups.
+    all.yml             #  Variables that will be supplied to the special 'all' group.
+    services.yml        #  Variables that will be supplied to only the 'services' group.
+playbooks/              #  Not a special folder name. Here I am grouping a set of roles 
+  role0/                #  This folder groups all the resources for a configuration together
+    tasks/              #  Special folder name
+      main.yml          #  The tasks in this file will run when role0 applies to a group. 
+    files/              #  Special folder name
+      service0.conf     #  You may hardcode a configuration file
+    templates/          #  Special folder name
+      service.conf.j2   #  Or, you may create a template instead. End files in .j2 
+    vars/               #  Special folder name
+      main.yml          #  The variables specific to this role
+  role1/                #  We may develop as many roles we like.
+  ...
+```
+## Wizardlab's Structure
+
+I try to stick to the prescribed structure, but I prefer to use only a subset
+of the special role-associated folders: tasks, files, templates. Since the 
+Vagrantfile only stands up a few VMs, we use a single inventory file.
+
+```
+inventory               #  ini format inventory of the Vagrant machines
+playbooks/
+  controller/           #  Role for the controller
+    tasks/
+    files/
+  infra/                #  Role for just dhcp/dns
+    tasks/
+    templates/
+  pxe/                  #  Role for Debian PXE intaller
+    tasks/
+    templates/
+    files/
+  clonezilla/           #  Role for Clonezilla imaging environment
+    tasks/
+    templates/
+    files/
+  fog/                  #  Role for Fog imaging environment
+  windows/              #  Role for Windows configuration management
+    tasks/
+    vars/
+```
