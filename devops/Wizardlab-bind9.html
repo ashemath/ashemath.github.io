@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Wizard Lab" href="Wizardlab.html" /><link rel="prev" title="Biography" href="../Biography.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Wizardlab-docs" href="wizardlab-docs.html" /><link rel="prev" title="Wizardlab: How it Works" href="Playbooks.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Devops - Bill the Wizard&#39;s Homepage</title>
+        <title>Wizardlab DNS Automation - Bill the Wizard&#39;s Homepage</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -215,11 +215,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Art.html">Art</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Biography.html">Biography</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Devops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Devops</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Devops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Devops</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Wizardlab.html">Wizard Lab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Playbooks.html">Wizardlab: How it Works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Wizardlab-bind9.html">Wizardlab DNS Automation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Wizardlab-bind9.html#wizardlab-bind9">Wizardlab-bind9</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Wizardlab DNS Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wizardlab-bind9">Wizardlab-bind9</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wizardlab-docs.html">Wizardlab-docs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ansible-thewizard.html">Ansible Roles and “The Wizard”</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Docker.html">Docker and Ansible</a></li>
@@ -251,7 +251,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/devops/index.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/devops/Wizardlab-bind9.md.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -271,78 +271,140 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="devops">
-<h1>Devops<a class="headerlink" href="#devops" title="Link to this heading">¶</a></h1>
-<div class="toctree-wrapper compound">
+          <section id="wizardlab-dns-automation">
+<h1>Wizardlab DNS Automation<a class="headerlink" href="#wizardlab-dns-automation" title="Link to this heading">¶</a></h1>
+<p>As a development and training environment, Wizardlab has unique requirements for
+user configurability. Users need to be able to modify DNS parameters to suit a
+variety of projects.</p>
+<p>Wizardlab is designed to operate in a production-like fashion through automated
+service setup and delivery. Wizardlab’s approach to DNS exemplifies these
+ideas. While there are specific downsides to containerizing DHCP (raw vs udp socket),
+DNS performs well as a container, so it’s the first Docker-based service
+that I developed for Wizardlab.</p>
+<p>Connect to control:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vagrant ssh control
+</pre></div>
 </div>
-<section id="exploring-wizardlab">
-<h2>Exploring Wizardlab<a class="headerlink" href="#exploring-wizardlab" title="Link to this heading">¶</a></h2>
-<p>The Wizardlab is a labor of love. I started the  multi-machine vagrant
-project as a way to practice the art of System Administration in a public
-manner.</p>
-<p>I use the Wizardlab as starting point when I decide to embark on a mission to
-install/configure a new service or application.</p>
-<ul class="simple">
-<li><p><a class="reference external" href="Wizardlab.html">Wizard Lab</a></p></li>
-<li><p><a class="reference external" href="https://www.github.com/ashemath/wizardlab">github.com/ashemath/wizardlab</a></p></li>
-</ul>
+<p>Setup Bind9, ISC DHCP, and Docker on the <code class="docutils literal notranslate"><span class="pre">services</span></code> VM:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make docker_lab
+</pre></div>
+</div>
+<p>Wizardlab’s DNS is configured by the <code class="docutils literal notranslate"><span class="pre">infra</span></code> ansible role, which configures
+Docker, DNS, and DHCP.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">infra</span></code> role leverages the <code class="docutils literal notranslate"><span class="pre">docker</span></code> role to setup the docker engine.
+<code class="docutils literal notranslate"><span class="pre">setup_bind.yml</span></code> ensures <code class="docutils literal notranslate"><span class="pre">wizardlab-bind9</span></code> is cloned to the <code class="docutils literal notranslate"><span class="pre">services</span></code> VM, and the service is started with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span></code>.</p>
+<p>Wizardlab’s default domain is called <code class="docutils literal notranslate"><span class="pre">wizardlab.test</span></code>
+<code class="docutils literal notranslate"><span class="pre">.test</span></code> is a special .tld that will never be registered per
+<a class="reference external" href="https://www.rfc-editor.org/rfc/rfc2606.html">RFC 2606</a>.</p>
+<p>We setup resource records (RR) for <code class="docutils literal notranslate"><span class="pre">ns1</span></code>, <code class="docutils literal notranslate"><span class="pre">control</span></code>, and <code class="docutils literal notranslate"><span class="pre">services</span></code></p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>IP Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ns1</p></td>
+<td><p>varies</p></td>
+</tr>
+<tr class="row-odd"><td><p>control</p></td>
+<td><p>192.168.56.2</p></td>
+</tr>
+<tr class="row-even"><td><p>services</p></td>
+<td><p>192.168.56.3</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Compose will assign a private ip address on a /24 network to the ns1 container.
+For example, 172.18.0.2/24. <code class="docutils literal notranslate"><span class="pre">build_file.py</span></code> will infer the container IP address and
+add the value to the record for ns1.</p>
+<p>To revise the DNS settings, <code class="docutils literal notranslate"><span class="pre">cd</span></code> to <code class="docutils literal notranslate"><span class="pre">/vagrant/wizardlab-bind9</span></code> and  edit
+<code class="docutils literal notranslate"><span class="pre">bind/domain.json</span></code> or <code class="docutils literal notranslate"><span class="pre">bind/options.json</span></code> then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo rebuild.sh
+</pre></div>
+</div>
+<p>The DNS service will now be configured how you specified.</p>
+<p>As a standalone project, we have a easily BIND9 service that runs on Docker, but
+combining ansible automation with these features gives me DNS service that I can
+reconfigure reliably as I add and remove services from my development/training
+environment.</p>
+<section id="why-bind9">
+<h2>Why BIND9<a class="headerlink" href="#why-bind9" title="Link to this heading">¶</a></h2>
+<p>Wizardlab deploys BIND9 because it’s the reference implementation of the DNS protocol,
+it’s widely used and thoroughly tested, and it’s available on most distributions.</p>
 </section>
-<section id="bill-s-take-on-hypervisors">
-<h2>Bill’s take on Hypervisors<a class="headerlink" href="#bill-s-take-on-hypervisors" title="Link to this heading">¶</a></h2>
-<p>Hypervisors are one of my favorite tools. A hypervisor takes a computer and
-divides up the resources for multiple virtual systems to use (VMs).</p>
-<ul class="simple">
-<li><p><a class="reference external" href="Hypervisors.html">Hypervisors</a></p></li>
-</ul>
+<section id="why-a-docker-container">
+<h2>Why a Docker container?<a class="headerlink" href="#why-a-docker-container" title="Link to this heading">¶</a></h2>
+<p>DNS is a great service to run in a docker container. In production, docker
+containers make services easy to deploy and move between servers.
+With Wizardlab’s DNS service, I saw an opportunity to develop a side-project
+that could stand alone as a Docker project</p>
 </section>
-<section id="bill-s-ansible-adventure">
-<h2>Bill’s Ansible Adventure<a class="headerlink" href="#bill-s-ansible-adventure" title="Link to this heading">¶</a></h2>
-<p>Ansible is the Python-driven cross-platform automation solution from Redhat.
-The scripts for Ansible is done in yaml, and the tool imports variables from
-files that it parses in the directory structure.</p>
-<p>Ansible parses a host inventory file, and will dynamically assign
-configuration based on properties of the host it targets. Groups of hosts
-can be assigned and nested to create practically anything.</p>
-<ul class="simple">
-<li><p><a class="reference external" href="Playbooks.html">Wizardlab’s Configuration Playbooks</a></p></li>
-<li><p><a class="reference external" href="Docker.html">How I built Docker support into Wizardlab</a></p></li>
-</ul>
 </section>
-<section id="my-devops-story">
-<h2>My DevOps Story<a class="headerlink" href="#my-devops-story" title="Link to this heading">¶</a></h2>
-<p>I fell in love with DevOps through the instructor training coursework that
-I took during my tenure as an IT teacher. Before taking the instructor
-training coursework for Cisco DevNet, I had been studying Cisco CCNA, Linux, and Python as separate topics.</p>
-<p>DevOps brought all of these concepts together, and the experience of
-practicing all these skills at once was thrilling.</p>
-<p>On my lab equipment, I was free to use whatever technology that I saw best fit
-the job. I had a lot of desktop boxes, but most of they were from circa 2008,
-and storage devices were mostly 200GB of spinning rust.</p>
-<p>The nice production workstations had to run Windows, and I would have a device
-get kicked out of the network if I configured any kind of firewall exception.
-We had to join production systems to the production Active Directory, and I had
-zero acccess to managing Domain Group policy. Everything had to be done by
-hand, with a USB drive.</p>
-<p>I needed to submit paperwork for every piece of software I installed, and wait
-for a TAC technician to test the software (I waited up to a year for software
-testing). Over 100 sites are supported by this single group of techs, so any
-kind of question-mark raised during testing would often mean it would need to
-sit for a while.</p>
-<p>My students needed System Administration experience, so I designed a VDI
-solution that I hosted on premises. I ran my own AD, so I could support VMware
-and demonstrate datacenter concepts. All lab equipment was on an isolated
-network with its own internet connection, and I routed traffic over the
-internet to providde access to the Lab equipment from the production
-workstations.</p>
-<p>I created this whole VDI system before I systematically studied Linux, or
-Networking. Building the whole system up was a process of brute force problem
-solving. DevOps methodology and tooling makes building and maintaining systems
-easier.</p>
-<p>I realized that I would need to work in a larger scale environment to exercise
-my new skillset, and I set my mind on finding a role as a System Administrator
-instead of teaching. I spent six months training as a maniac, and it paid off.</p>
-<p>In my current work, I am learning how to manage Windows workstations using
-Linux, Ansible, Gitlab CI/CD, Powershell, and Chocolatey.</p>
+<section id="wizardlab-bind9">
+<h1>Wizardlab-bind9<a class="headerlink" href="#wizardlab-bind9" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://github.com/ashemath/wizardlab-bind9">github.com/ashemath/wizardlab-bind9</a></p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>This project will setup a BIND 9 DNS server using <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>.
+While this project could be useful in other contexts, it’s primary
+purpose is to serve as a repository for Wizardlab’s DNS service automation.</p>
+</section>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading">¶</a></h2>
+<p>I needed a DNS server to deliver authoritative DNS services for
+isolated training/development networks. Long term, I need something reliable
+that I can build on to manage DNS on private cloud provider networks.</p>
+<p>Wizardlab-bind9 is my idea of using Docker and Python to accomplish this
+mission.</p>
+</section>
+<section id="design">
+<h2>Design<a class="headerlink" href="#design" title="Link to this heading">¶</a></h2>
+<p>Having a BIND server on Docker allows us to drive dns over a variety of
+network interfaces. By default, this project will override host network ports
+<code class="docutils literal notranslate"><span class="pre">53/udp</span></code> and <code class="docutils literal notranslate"><span class="pre">53/tcp</span></code>. In a isolated network context, that’s probably what you
+want, but please use caution.</p>
+<p>Wizardlab-bind9 is designed so we can craft/modify the single <code class="docutils literal notranslate"><span class="pre">domain.json</span></code>.
+Specifying the domain name, forwarders, and all the records that we’d like
+in that one file.</p>
+<p>When the container starts, <code class="docutils literal notranslate"><span class="pre">build_files.py</span></code> reads <code class="docutils literal notranslate"><span class="pre">domain.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">options.json</span></code>, parses the requested properities of the domain, and stages up
+the generated <code class="docutils literal notranslate"><span class="pre">zones.*</span></code>, <code class="docutils literal notranslate"><span class="pre">*.db</span></code>, and <code class="docutils literal notranslate"><span class="pre">named.conf.*</span></code> files in the
+<code class="docutils literal notranslate"><span class="pre">/bind/etc_bind/</span></code> and <code class="docutils literal notranslate"><span class="pre">bind/etc_bind/{primary,secondary}</span></code> subdirectories.</p>
+<p>Next, the staged files are copied from <code class="docutils literal notranslate"><span class="pre">/bind/etc_bind/*</span></code> to <code class="docutils literal notranslate"><span class="pre">/etc/bind/</span></code>
+and the <code class="docutils literal notranslate"><span class="pre">named</span></code> service is started with the command <code class="docutils literal notranslate"><span class="pre">named</span> <span class="pre">-4</span> <span class="pre">-g</span></code>.
+The BIND service runs in the forground, so all the debug output gets caught
+by Docker’s default logging service.</p>
+<p>To summarize:</p>
+<ul class="simple">
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">domain.json</span></code></p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span></code></p></li>
+<li><p>Profit.</p></li>
+</ul>
+<p>There’s a bit of magic happening between <code class="docutils literal notranslate"><span class="pre">domain.json</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">build_files.py</span></code> command. The 2nd RR is overritten by a python
+call that determines the assigned IP address for the container.
+This means that the BIND server can add the appropriate “glue”
+record reflecting the IP docker assigned the container.</p>
+<p>What this means is that any IP you specify for rr_data for the 2nd
+RR in the <code class="docutils literal notranslate"><span class="pre">domain.json</span></code> file will be overwritten. This may not be
+what you like, so feel free to edit <code class="docutils literal notranslate"><span class="pre">build_file.py</span></code> if you do not
+need this feature.</p>
+</section>
+<section id="current-status">
+<h2>Current status<a class="headerlink" href="#current-status" title="Link to this heading">¶</a></h2>
+<p>In it’s current form, it sets up a single domain effectively.
+<code class="docutils literal notranslate"><span class="pre">Domain</span> <span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">primary</span></code> zone status, acl groups, and as many resource records
+as you need can be set up in the one <code class="docutils literal notranslate"><span class="pre">domain.json</span></code> file.
+Server settings that contribute to <code class="docutils literal notranslate"><span class="pre">/etc/bind/named.conf.options</span></code> can be set in
+the <code class="docutils literal notranslate"><span class="pre">bind/options.json</span></code> file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">build_files.py</span></code> supports reading the <code class="docutils literal notranslate"><span class="pre">options.json</span></code> and <code class="docutils literal notranslate"><span class="pre">domain.json</span></code> files.
+I am working on having it reconcile additional <code class="docutils literal notranslate"><span class="pre">*.json</span></code> files, combining into
+one or more configured “zones” that can run on a single container, but I
+would like to focus on configuration that needs just the single SOA and a few
+RRs for now.</p>
 </section>
 </section>
 
@@ -351,23 +413,23 @@ Linux, Ansible, Gitlab CI/CD, Powershell, and Chocolatey.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="Wizardlab.html">
+          <a class="next-page" href="wizardlab-docs.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Wizard Lab</div>
+                <div class="title">Wizardlab-docs</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../Biography.html">
+          <a class="prev-page" href="Playbooks.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Biography</div>
+                <div class="title">Wizardlab: How it Works</div>
                 
               </div>
             </a>
@@ -401,11 +463,16 @@ Linux, Ansible, Gitlab CI/CD, Powershell, and Chocolatey.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Devops</a><ul>
-<li><a class="reference internal" href="#exploring-wizardlab">Exploring Wizardlab</a></li>
-<li><a class="reference internal" href="#bill-s-take-on-hypervisors">Bill’s take on Hypervisors</a></li>
-<li><a class="reference internal" href="#bill-s-ansible-adventure">Bill’s Ansible Adventure</a></li>
-<li><a class="reference internal" href="#my-devops-story">My DevOps Story</a></li>
+<li><a class="reference internal" href="#">Wizardlab DNS Automation</a><ul>
+<li><a class="reference internal" href="#why-bind9">Why BIND9</a></li>
+<li><a class="reference internal" href="#why-a-docker-container">Why a Docker container?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wizardlab-bind9">Wizardlab-bind9</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#design">Design</a></li>
+<li><a class="reference internal" href="#current-status">Current status</a></li>
 </ul>
 </li>
 </ul>

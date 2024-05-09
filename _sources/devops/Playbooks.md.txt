@@ -1,4 +1,4 @@
-# Wizardlab's Configuration Playbooks
+# Wizardlab: How it Works
 
 The Wizardlab project consists of a multi-machine Vagrantfile, a collection of
 Ansible playbooks, and a Makefile
@@ -28,21 +28,27 @@ environment.
 ```
 $ make imaging
 ```
+Instead of playing with PXE, stand up DNS, DHCP, and Docker like so:
+```
+$ make docker_lab
+```
 
 Wizardlab is designed to automate standing up a set of services, so
 you can get right into your configuration idea. 
 
-## The Ansible Directory Structure
+## An Example Ansible Directory Structure
 
 Ansible configuration directories can be organized a number of ways, but let's
 suppose I have two roles (role0 and role1) that I design to setup two services:
 service0 and service1.
 
-Let's say I have a testing inventory called test-inventory, and a folder
+I might have a testing inventory called test-inventory, and a folder
 with various 'production' host inventory files organized by infrastrucure
-context. For example 1-cluster targets machines in the compute cluster while 
+context. 
+For example 1-cluster targets machines in the compute cluster while 
 3-research.yml targets research desktops.
-
+Adopting a folder structure like the one below allows us to tap into
+features of ansible that help us build very adaptive deployment strategies. 
 
 ```
 test-inventory          #  If we pass a single file as the inventory, it runs just one. 
@@ -67,19 +73,22 @@ playbooks/              #  Not a special folder name. Here I am grouping a set o
   role1/                #  We may develop as many roles we like.
   ...
 ```
-## Wizardlab's Structure
+## Wizardlab's file structure
 
 I try to stick to the prescribed structure, but I prefer to use only a subset
-of the special role-associated folders: tasks, files, templates. Since the 
-Vagrantfile only stands up a few VMs, we use a single inventory file.
-
+of the special role-associated folders: tasks, files, templates. I may be
+adding some handlers in the near future.
+Since the Vagrantfile only stands up a few VMs, we use a single inventory file.
 ```
 inventory               #  ini format inventory of the Vagrant machines
 playbooks/
   controller/           #  Role for the controller
     tasks/
+    files/              #  Role for configuring Docker
+  docker/
+    tasks/
     files/
-  infra/                #  Role for just dhcp/dns
+  infra/                #  Role for DHCP/DNS
     tasks/
     templates/
   pxe/                  #  Role for Debian PXE intaller
@@ -95,3 +104,4 @@ playbooks/
     tasks/
     vars/
 ```
+

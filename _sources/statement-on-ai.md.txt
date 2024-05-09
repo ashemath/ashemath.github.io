@@ -1,0 +1,68 @@
+# Bill the Wizard's Take on Generative AI
+Our society is going through a watershed moment: the rise of general
+purpose AI that will be able to do practically anything. Technical,
+creative, managerial, culinary, agricultural, transportation, construction,
+maintenance, communication, every sector of our society will be
+impacted.
+
+It doesn't matter what the work is, the technologies we are developing
+is going to enable organizations able to do more with less people
+working for them.
+
+## Think about the Horses
+Prior to the invention of automobiles, there were a
+lot more horses in the United States. People stopped buying horses
+because they could buy a machine that did comparable work.
+
+The industrial revolution accelerated the scaling up of infrastructure
+to support cars, trains, and automobiles. Capital driven industry
+capitalized on scientific progress, hard won through generations of
+scientists pushing the boundaries of our understanding of the
+natural world. 
+
+Gas was cheap and plentiful. As transportation technology improved, less
+horses were bred for transporting people and goods. In the year 2024,
+you only see horses when you drive through rural areas where people
+keep horses for pleasure riding, herding cattle, or competing in rodeos.
+Maybe you'll see horses in a parade, or at a State fair. There's
+still horses, but a lot less of them. The horses we do keep
+are special, or lucky to be important to someone.
+
+## Post General AI Society
+Right now we are experiencing just a taste of the impact AI will
+have on human industry, education, and society. AI
+Models like ChatGPT, StableDiffusion, and alike are able to generate
+value for organizations that would take Humans minutes, days, hours,
+or months. StableDiffusion can pump out art that might take weeks to
+create by a skills graphic artist. That analysis of hundreds of
+records can be done in minutes insteads of taking a team of people
+weeks.
+
+What's been made public is only a primitive, pared down, and optimized
+for scale version of what corporations funding these projects have access
+to. It takes 10's of millions of dollars to develop these models, so
+academia is largely unable to drive the devvelopment of these tools.
+
+Profit driven industry holds all the cards when it comes to the development
+of AI. Hiring less people means more profit. Jobs are evaporating
+before our eyes, and our academic programs are facing a societal challenge
+that shakes, to the core, the very nature of what we value from
+education.
+
+## Nothing to Do
+If AI can do my homework for me, make writing a paper easier, or
+create that art that I want, I can have more time to just consume media.
+AI is already replacing administrative staff, graphic artists, engineers,
+journalists, paralegals, medical assistants, billing specialists, cybersecurity
+professionals.
+Large corporations with access to these technologies downsize their workforce, one
+role at a time, or they let wages languish as the economy inflates, and they feel
+free to not replace people when they leave because productivity levels are
+so easy to maintain.
+All you will need is a C-Suite, a pile of computers, and a skeleton crew of
+DevOps people to connect services across the globe. Fully automated factories will
+employ some human beings, but just a small fraction of the people who would have
+been necessary to staff that scale of operation in the 1990's.
+
+
+

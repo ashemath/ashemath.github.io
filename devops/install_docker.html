@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Wizard Lab" href="Wizardlab.html" /><link rel="prev" title="Biography" href="../Biography.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Linux" href="../linux/index.html" /><link rel="prev" title="Hypervisors" href="Hypervisors.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Devops - Bill the Wizard&#39;s Homepage</title>
+        <title>Install Docker on Debian - Bill the Wizard&#39;s Homepage</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -215,7 +215,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Art.html">Art</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Biography.html">Biography</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Devops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Devops</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Devops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Devops</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Wizardlab.html">Wizard Lab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Playbooks.html">Wizardlab: How it Works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Wizardlab-bind9.html">Wizardlab DNS Automation</a></li>
@@ -224,7 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ansible-thewizard.html">Ansible Roles and “The Wizard”</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Docker.html">Docker and Ansible</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Hypervisors.html">Hypervisors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install_docker.html">Install Docker on Debian</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Install Docker on Debian</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../linux/index.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Linux</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,7 +251,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/devops/index.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/devops/install_docker.md.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -271,78 +271,105 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="devops">
-<h1>Devops<a class="headerlink" href="#devops" title="Link to this heading">¶</a></h1>
-<div class="toctree-wrapper compound">
+          <section id="install-docker-on-debian">
+<h1>Install Docker on Debian<a class="headerlink" href="#install-docker-on-debian" title="Link to this heading">¶</a></h1>
+<p>Debian is a great linux distribution, and Docker is a great tool to
+have installed. Installing Docker on Debian is straightforward
+as described on <a class="reference external" href="https://docs.docker.com/engine/install/debian">docs.docker.com</a>.</p>
+<section id="bill-s-docker-install-script">
+<h2>Bill’s Docker Install Script<a class="headerlink" href="#bill-s-docker-install-script" title="Link to this heading">¶</a></h2>
+<p>If you would like to forgo the manual CLI process described in the documentation,
+I have written a script that will carry out the process for you. All you need
+to do is run the script and provide the <code class="docutils literal notranslate"><span class="pre">sudo</span></code> password when prompted.</p>
+<section id="instructions">
+<h3>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Get the code from the github gist displayed below downloaded where you can find it.</p></li>
+<li><p>Review the code, modify it if necessary (works fine for me!)</p></li>
+<li><p>Make the script executable: <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">u+x</span> <span class="pre">install_docker.sh</span></code></p></li>
+<li><p>Execute the script to install Docker engine: <code class="docutils literal notranslate"><span class="pre">./install_docker.sh</span></code></p></li>
+</ol>
+<p>If you want something to paste into a terminal on Debian 12, try this <strong>if you dare</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;$(curl https://billthewizard.net/_static/install_docker.sh)&quot;</span>
+</pre></div>
 </div>
-<section id="exploring-wizardlab">
-<h2>Exploring Wizardlab<a class="headerlink" href="#exploring-wizardlab" title="Link to this heading">¶</a></h2>
-<p>The Wizardlab is a labor of love. I started the  multi-machine vagrant
-project as a way to practice the art of System Administration in a public
-manner.</p>
-<p>I use the Wizardlab as starting point when I decide to embark on a mission to
-install/configure a new service or application.</p>
+</section>
+</section>
+<section id="why-share-this-code">
+<h2>Why share this code?<a class="headerlink" href="#why-share-this-code" title="Link to this heading">¶</a></h2>
+<p>Docker is central to how I work on some of my projects, but I like the option to
+remove Docker if I have a dedicated system to run those workloads off of my workstation.</p>
+<p>Consequently, I end up having to install Docker again. Each time, I pull up the docker docs
+webpage next to a terminal emulator and copy the lines in as described. Not a big deal at all,
+but I have probably done this 12+ times now, and I am ready to have executable code on the
+internet that I can safely execute to accomplish this task.</p>
+<section id="script-features">
+<h3>Script features<a class="headerlink" href="#script-features" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p><a class="reference external" href="Wizardlab.html">Wizard Lab</a></p></li>
-<li><p><a class="reference external" href="https://www.github.com/ashemath/wizardlab">github.com/ashemath/wizardlab</a></p></li>
+<li><p>Checks <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">version</span></code> to determine if you have docker engine already.</p></li>
+<li><p>Removes conflicting packages if they are they installed.</p></li>
+<li><p>Adds the docker.com gpg key to /etc/apt/keyrings/docker.asc in idempotent fashion</p></li>
+<li><p>Adds the apt repo file to /etc/apt/sources.list.d/docker.list in idempotent fashion</p></li>
+<li><p>Installs docker engine packages</p></li>
 </ul>
 </section>
-<section id="bill-s-take-on-hypervisors">
-<h2>Bill’s take on Hypervisors<a class="headerlink" href="#bill-s-take-on-hypervisors" title="Link to this heading">¶</a></h2>
-<p>Hypervisors are one of my favorite tools. A hypervisor takes a computer and
-divides up the resources for multiple virtual systems to use (VMs).</p>
-<ul class="simple">
-<li><p><a class="reference external" href="Hypervisors.html">Hypervisors</a></p></li>
-</ul>
+<section id="serving-suggestion">
+<h3>Serving suggestion<a class="headerlink" href="#serving-suggestion" title="Link to this heading">¶</a></h3>
+<p>I’d use this script to install docker engine on a fresh Debian 12 system, or I may use
+it to install docker engine after purging a system of old project files.</p>
+<p>I would like to adapt the code such that it can work on debian-based distros: Ubuntu, Mint, Kali,
+etc. As is, you will need to modify <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/docker.list</span></code>.</p>
 </section>
-<section id="bill-s-ansible-adventure">
-<h2>Bill’s Ansible Adventure<a class="headerlink" href="#bill-s-ansible-adventure" title="Link to this heading">¶</a></h2>
-<p>Ansible is the Python-driven cross-platform automation solution from Redhat.
-The scripts for Ansible is done in yaml, and the tool imports variables from
-files that it parses in the directory structure.</p>
-<p>Ansible parses a host inventory file, and will dynamically assign
-configuration based on properties of the host it targets. Groups of hosts
-can be assigned and nested to create practically anything.</p>
-<ul class="simple">
-<li><p><a class="reference external" href="Playbooks.html">Wizardlab’s Configuration Playbooks</a></p></li>
-<li><p><a class="reference external" href="Docker.html">How I built Docker support into Wizardlab</a></p></li>
-</ul>
+<section id="code">
+<h3>Code<a class="headerlink" href="#code" title="Link to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/sh
+
+# billthewizard.net
+# Install docker on debian, example shell script.
+
+compose_version=$( docker compose version )
+
+case &quot;$compose_version&quot; in
+        &quot;&quot;) ;;
+        *Docker\ Compose*) echo &quot;Docker already installed!&quot;; exit;;
+esac
+
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc 
+        do sudo apt-get remove $pkg 
+done
+
+if ! [ -e /etc/apt/keyrings/docker.asc ]
+then
+        sudo apt-get update
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/debian/gpg \
+        -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+fi
+
+if ! [ -e /etc/apt/sources.list.d/docker.list ]
+then
+        echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+        https://download.docker.com/linux/debian \
+        $(. /etc/os-release &amp;&amp; echo &quot;$VERSION_CODENAME&quot;) stable&quot; | \
+        sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+        sudo apt-get update
+fi
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</pre></div>
+</div>
 </section>
-<section id="my-devops-story">
-<h2>My DevOps Story<a class="headerlink" href="#my-devops-story" title="Link to this heading">¶</a></h2>
-<p>I fell in love with DevOps through the instructor training coursework that
-I took during my tenure as an IT teacher. Before taking the instructor
-training coursework for Cisco DevNet, I had been studying Cisco CCNA, Linux, and Python as separate topics.</p>
-<p>DevOps brought all of these concepts together, and the experience of
-practicing all these skills at once was thrilling.</p>
-<p>On my lab equipment, I was free to use whatever technology that I saw best fit
-the job. I had a lot of desktop boxes, but most of they were from circa 2008,
-and storage devices were mostly 200GB of spinning rust.</p>
-<p>The nice production workstations had to run Windows, and I would have a device
-get kicked out of the network if I configured any kind of firewall exception.
-We had to join production systems to the production Active Directory, and I had
-zero acccess to managing Domain Group policy. Everything had to be done by
-hand, with a USB drive.</p>
-<p>I needed to submit paperwork for every piece of software I installed, and wait
-for a TAC technician to test the software (I waited up to a year for software
-testing). Over 100 sites are supported by this single group of techs, so any
-kind of question-mark raised during testing would often mean it would need to
-sit for a while.</p>
-<p>My students needed System Administration experience, so I designed a VDI
-solution that I hosted on premises. I ran my own AD, so I could support VMware
-and demonstrate datacenter concepts. All lab equipment was on an isolated
-network with its own internet connection, and I routed traffic over the
-internet to providde access to the Lab equipment from the production
-workstations.</p>
-<p>I created this whole VDI system before I systematically studied Linux, or
-Networking. Building the whole system up was a process of brute force problem
-solving. DevOps methodology and tooling makes building and maintaining systems
-easier.</p>
-<p>I realized that I would need to work in a larger scale environment to exercise
-my new skillset, and I set my mind on finding a role as a System Administrator
-instead of teaching. I spent six months training as a maniac, and it paid off.</p>
-<p>In my current work, I am learning how to manage Windows workstations using
-Linux, Ansible, Gitlab CI/CD, Powershell, and Chocolatey.</p>
+<section id="github-gist">
+<h3>Github Gist<a class="headerlink" href="#github-gist" title="Link to this heading">¶</a></h3>
+<script src="https://gist.github.com/ashemath/d7d2ac548d51158a2b8841283f98ff1c.js"></script>
+<style>
+.gist .blob-code-inner {
+    color: #fff;
+}
+</style>
+</section>
 </section>
 </section>
 
@@ -351,23 +378,23 @@ Linux, Ansible, Gitlab CI/CD, Powershell, and Chocolatey.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="Wizardlab.html">
+          <a class="next-page" href="../linux/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Wizard Lab</div>
+                <div class="title">Linux</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../Biography.html">
+          <a class="prev-page" href="Hypervisors.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Biography</div>
+                <div class="title">Hypervisors</div>
                 
               </div>
             </a>
@@ -401,11 +428,18 @@ Linux, Ansible, Gitlab CI/CD, Powershell, and Chocolatey.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Devops</a><ul>
-<li><a class="reference internal" href="#exploring-wizardlab">Exploring Wizardlab</a></li>
-<li><a class="reference internal" href="#bill-s-take-on-hypervisors">Bill’s take on Hypervisors</a></li>
-<li><a class="reference internal" href="#bill-s-ansible-adventure">Bill’s Ansible Adventure</a></li>
-<li><a class="reference internal" href="#my-devops-story">My DevOps Story</a></li>
+<li><a class="reference internal" href="#">Install Docker on Debian</a><ul>
+<li><a class="reference internal" href="#bill-s-docker-install-script">Bill’s Docker Install Script</a><ul>
+<li><a class="reference internal" href="#instructions">Instructions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#why-share-this-code">Why share this code?</a><ul>
+<li><a class="reference internal" href="#script-features">Script features</a></li>
+<li><a class="reference internal" href="#serving-suggestion">Serving suggestion</a></li>
+<li><a class="reference internal" href="#code">Code</a></li>
+<li><a class="reference internal" href="#github-gist">Github Gist</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

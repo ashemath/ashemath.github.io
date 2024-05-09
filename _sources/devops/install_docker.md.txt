@@ -1,0 +1,92 @@
+# Install Docker on Debian
+Debian is a great linux distribution, and Docker is a great tool to
+have installed. Installing Docker on Debian is straightforward
+as described on [docs.docker.com](https://docs.docker.com/engine/install/debian).
+
+## Bill's Docker Install Script
+If you would like to forgo the manual CLI process described in the documentation,
+I have written a script that will carry out the process for you. All you need
+to do is run the script and provide the `sudo` password when prompted.
+
+### Instructions
+1. Get the code from the github gist displayed below downloaded where you can find it.
+2. Review the code, modify it if necessary (works fine for me!)
+3. Make the script executable: `chmod u+x install_docker.sh`
+4. Execute the script to install Docker engine: `./install_docker.sh`
+
+If you want something to paste into a terminal on Debian 12, try this **if you dare**:
+```
+sh -c "$(curl https://billthewizard.net/_static/install_docker.sh)"
+```
+
+## Why share this code?
+Docker is central to how I work on some of my projects, but I like the option to
+remove Docker if I have a dedicated system to run those workloads off of my workstation.
+
+Consequently, I end up having to install Docker again. Each time, I pull up the docker docs
+webpage next to a terminal emulator and copy the lines in as described. Not a big deal at all,
+but I have probably done this 12+ times now, and I am ready to have executable code on the
+internet that I can safely execute to accomplish this task.
+
+### Script features
+- Checks `docker compose version` to determine if you have docker engine already.
+- Removes conflicting packages if they are they installed.
+- Adds the docker.com gpg key to /etc/apt/keyrings/docker.asc in idempotent fashion
+- Adds the apt repo file to /etc/apt/sources.list.d/docker.list in idempotent fashion
+- Installs docker engine packages
+
+### Serving suggestion
+I'd use this script to install docker engine on a fresh Debian 12 system, or I may use
+it to install docker engine after purging a system of old project files. 
+
+I would like to adapt the code such that it can work on debian-based distros: Ubuntu, Mint, Kali,
+etc. As is, you will need to modify `/etc/apt/sources.list.d/docker.list`.
+
+### Code
+```
+#!/bin/sh
+
+# billthewizard.net
+# Install docker on debian, example shell script.
+
+compose_version=$( docker compose version )
+
+case "$compose_version" in
+        "") ;;
+        *Docker\ Compose*) echo "Docker already installed!"; exit;;
+esac
+
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc 
+        do sudo apt-get remove $pkg 
+done
+
+if ! [ -e /etc/apt/keyrings/docker.asc ]
+then
+        sudo apt-get update
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/debian/gpg \
+        -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+fi
+
+if ! [ -e /etc/apt/sources.list.d/docker.list ]
+then
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+        https://download.docker.com/linux/debian \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+fi
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+### Github Gist
+<script src="https://gist.github.com/ashemath/d7d2ac548d51158a2b8841283f98ff1c.js"></script>
+<style>
+.gist .blob-code-inner {
+    color: #fff;
+}
+</style>
+

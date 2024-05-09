@@ -1,0 +1,690 @@
+# Docker and Ansible
+
+## Context
+
+Docker is another fabulous tool for System Administration. Docker lets you
+isolate system processes. Rather than simulating a whole other system, like
+with a VM, you can replicate the function of a different operating system.
+
+Docker is an example of "containerization." It's far from the only solution,
+but it's a solid product that can get you started building things faster.
+
+Instead of setting up a new server, you download a tiny image of a root
+filesystem, and boot it up with processes isolated from your host system
+using cgroups. 
+
+For Wizardlab, this means we can deploy a variety of servers onto the one
+`services`  host. Mix or match Operating Systems, network things together,
+take over host network ports, and script out the whole thing in easy human
+readable configuration files. It's lovely.
+
+I'll be setting up Docker and the Docker Compose plugin. `Docker compose` to
+Docker as ansible-playbook is to ansible. It's another level of automaion.
+The `docker` command runs the file called `Dockerfile` inside ${PWD} while
+`docker compose` will look for a file named `docker-compose.yml` (.yaml works too!).
+
+## The Docker role
+Here's how I decided to design a "docker" role for Wizardlab. By no means is this
+*the* way to design something like this. Rather, this is how I decided to practice
+writing Ansible configuration in the context of automating docker setup on
+debian.
+
+I decided to have the docker role only install Docker by default, without the
+docker compose plugin. I am doing this to demonstrate the use of tags, and I would 
+probably delete all the tag stuff if I was using this at work.
+
+### The Process
+I create a new role under `playbooks/roles/docker`, and I setup file, template,
+and task subdirectories, utilizing BASH expansion.
+
+```
+$ mkdir -p playbooks/roles/docker/{files,tasks,templates}
+```
+
+I create a all-powerful playbook file under `/playbooks` that will
+drive the rest of the files:
+
+```
+$ vi playbooks/docker.yml
+```
+
+This playbook specifies Hosts\groups that I want to
+target, and imports the role I want in the proper order. I use 'roles' to
+run the 'infra' role which will give me DHCP services on `services` before
+I setup Docker if I give run the playbook without tags.
+
+When I run with the `--tag docker` option, I should get docker setup without
+installing dhcp.
+
+```
+---
+- name: "Setup Docker"
+  hosts: services
+  become: yes
+
+  tasks:
+  - name: include infra
+    ansible.builtin.include_role:
+      name: infra
+  - name: include docker
+    ansible.builtin.include_role:
+      name: docker
+    tags:
+      - docker
+      - always
+
+```
+
+Create a `main.yml` file under playbooks/docker/tasks/:
+
+```
+$ vi playbooks/roles/docker/tasks/main.yml
+```
+
+This file will pull in the task files that we design to setup docker. For this
+design, I will put it all in two task files, so I can decide whether I want Docker only,
+or both Docker and the docker compose plugin.
+
+```
+- name: Import the tasks that install just Docker
+  ansible.builtin.include_tasks:
+    file: "setup_docker.yml"
+    apply:
+      tags:
+        - always
+        - docker
+  tags:
+    - always
+
+- name: Import the tasks that install Docker Compose
+  ansible.builtin.include_tasks:
+    file: "setup_compose.yml"
+    apply:
+      tags:
+        - compose
+  tags:
+    - compose
+```
+
+I want the docker compose task to not run when I specify only the 'docker' tag,
+so I give the second include only the `compose` tag, and the compose tasks will run if I do not specify
+tags, or if I specify `--tags docker,compose`. 
+This is a way to setup "defaults" for what tasks a role will include, but allow you to switch it up if you need to with the ansible-playbook `--tags` option. Tags are pretty neat.
+
+Next, I create the two task files:
+
+```
+$ vi playbooks/roles/docker/tasks/setup_docker.yml
+```
+
+entering in the necessary tasks, I used this page for the recommended approach:
+[docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)
+```
+- name: remove conflicting packages
+  ansible.builtin.shell:
+    cmd: "for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; \
+      do sudo apt-get remove $pkg; done"
+
+- name: ensure I have the dependency packages to setup the repo
+  ansible.builtin.apt:
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+
+- name: remove the old gpg key if it already exists
+  ansible.builtin.file:
+    path: "/etc/apt/keyrings/docker.gpg"
+    state: absent
+
+- name: grab the official GPG key
+  ansible.builtin.shell:
+    cmd: "install -m 0755 -d /etc/apt/keyrings; \
+      curl -fsSL https://download.docker.com/linux/debian/gpg | \
+      gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
+
+- name: remove the old repo file
+  ansible.builtin.file:
+    path: "/etc/apt/sources.list.d/docker.list"
+    state: absent
+
+- name: setup the repository
+  ansible.builtin.shell:
+    cmd: "echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] \
+      https://download.docker.com/linux/debian bookworm stable' | \
+      tee /etc/apt/sources.list.d/docker.list > /dev/null"
+
+- name: update the app repo
+  ansible.builtin.shell: "apt update"
+
+- name: install docker packages
+  ansible.builtin.apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+
+- name: Celebrate docker tasks being finished
+  ansible.builtin.debug:
+    msg: "Docker setup tasks finished"
+
+```
+
+Next, a tiny task file that just installs the one package for docker compose:
+
+```
+$ vi playbooks/roles/docker/tasks/setup_compose.yml
+```
+
+and enter a few lines:
+
+```
+- name: Install the docker compose plugin
+  ansible.builtin.apt:
+    pkg: docker-compose-plugin
+
+- name: Celebrate the docker compose task running
+  ansible.builtin.debug:
+    msg: "docker compose task"
+
+```
+
+Let's test it out:
+
+```
+$ vagrant ssh control
+```
+
+Now I am connected to control, let's go to the /vagrant/ folder to pickup our latest edits
+  Note: Vagrant copies the /playbook directory to ~ at provisioning. If you start the provisioning
+  before building  playbooks, you'll want to move over to /vagrant
+
+```
+$ cd /vagrant
+```
+
+let's activate the ansible Python virtual environment (venv) in our home dirctory:
+```
+$ source ~/ansible/bin/activate
+```
+Next, run the playbook and just install docker!
+
+```
+(ansible)$ ansible-playbook -i inventory --tags docker playbooks/docker.yml
+```
+
+The results:
+
+```
+PLAY [Setup Docker] *************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [services]
+
+TASK [include docker] ***********************************************************************************
+
+TASK [docker : Import the tasks that install just Docker] ***********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_docker.yml for services
+
+TASK [docker : remove conflicting packages] *************************************************************
+changed: [services]
+
+TASK [docker : ensure I have the dependecy packages to setup the repo] **********************************
+changed: [services]
+
+TASK [docker : remove the old gpg key if it already exists] *********************************************
+ok: [services]
+
+TASK [docker : grab the official GPG key] ***************************************************************
+changed: [services]
+
+TASK [docker : remove the old repo file] ****************************************************************
+ok: [services]
+
+TASK [docker : setup the repository] ********************************************************************
+changed: [services]
+
+TASK [docker : update the apt database] *****************************************************************
+changed: [services]
+
+TASK [docker : install docker packages] *****************************************************************
+changed: [services]
+
+TASK [docker : Celebrate docker tasks being finished] ***************************************************
+ok: [services] => {
+    "msg": "Docker setup tasks finished"
+}
+
+PLAY RECAP **********************************************************************************************
+services                   : ok=11   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
+
+Now, to add the compose plugin by including the `--tag compose` option. Both task
+files run now, yet Ansible only needs to apply the single task from the `setup_compose.yml`
+include in `playbooks/docker.yml`:
+
+```
+(ansible)$ ansible-playbook -i inventory --tags compose playbooks/docker.yml
+```
+
+Results:
+
+```
+PLAY [Setup Docker] *************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [services]
+
+TASK [include docker] ***********************************************************************************
+
+TASK [docker : Import the tasks that install just Docker] ***********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_docker.yml for services
+
+TASK [docker : remove conflicting packages] *************************************************************
+changed: [services]
+
+TASK [docker : ensure I have the dependecy packages to setup the repo] **********************************
+ok: [services]
+
+TASK [docker : remove the old gpg key if it already exists] *********************************************
+changed: [services]
+
+TASK [docker : grab the official GPG key] ***************************************************************
+changed: [services]
+
+TASK [docker : remove the old repo file] ****************************************************************
+changed: [services]
+
+TASK [docker : setup the repository] ********************************************************************
+changed: [services]
+
+TASK [docker : update the apt database] *****************************************************************
+changed: [services]
+
+TASK [docker : install docker packages] *****************************************************************
+ok: [services]
+
+TASK [docker : Celebrate docker tasks being finished] ***************************************************
+ok: [services] => {
+    "msg": "Docker setup tasks finished"
+}
+
+TASK [docker : Import the tasks that install Docker Compose] ********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_compose.yml for services
+
+TASK [docker : Install the docker compose plugin] *******************************************************
+ok: [services]
+
+TASK [docker : Celebrate the docker compose task running] ***********************************************
+ok: [services] => {
+    "msg": "docker compose task"
+}
+
+PLAY RECAP **********************************************************************************************
+services                   : ok=14   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+```
+
+Next, I pull the ole' Test Kitchen trick, and show you what happens if I run the last command
+on a fresh VM. We'll need to setup a clean uninstall playbook later... Notice, both task lists execute:
+
+```
+(ansible)$ ansible-playbook -i inventory --tags compose playbooks/docker.yml
+```
+
+Results:
+```
+PLAY [Setup Docker] *************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [services]
+
+TASK [include infra] ************************************************************************************
+
+TASK [infra : Import tasks to setup isc-dhcp-server by default] *****************************************
+included: /vagrant/playbooks/roles/infra/tasks/dhcp_conf.yml for services
+
+TASK [infra : Deploying dhcpd.conf] *********************************************************************
+changed: [services]
+
+TASK [infra : copy dhcp defaults (eth1 and ipv4 only)] **************************************************
+changed: [services]
+
+TASK [infra : install dependencies] *********************************************************************
+changed: [services]
+
+TASK [infra : Alternatively, setup Kea in a memfile configuration] **************************************
+included: /vagrant/playbooks/roles/infra/tasks/kea-memfile.yml for services
+
+TASK [include docker] ***********************************************************************************
+
+TASK [docker : Import the tasks that install just Docker] ***********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_docker.yml for services
+
+TASK [docker : remove conflicting packages] *************************************************************
+changed: [services]
+
+TASK [docker : ensure I have the dependecy packages to setup the repo] **********************************
+changed: [services]
+
+TASK [docker : remove the old gpg key if it already exists] *********************************************
+ok: [services]
+
+TASK [docker : grab the official GPG key] ***************************************************************
+changed: [services]
+
+TASK [docker : remove the old repo file] ****************************************************************
+ok: [services]
+
+TASK [docker : setup the repository] ********************************************************************
+changed: [services]
+
+TASK [docker : update the apt database] *****************************************************************
+changed: [services]
+
+TASK [docker : install docker packages] *****************************************************************
+changed: [services]
+
+TASK [docker : Celebrate docker tasks being finished] ***************************************************
+ok: [services] => {
+    "msg": "Docker setup tasks finished"
+}
+
+TASK [docker : Import the tasks that install Docker Compose] ********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_compose.yml for services
+
+TASK [docker : Install the docker compose plugin] *******************************************************
+ok: [services]
+
+TASK [docker : Celebrate the docker compose task running] ***********************************************
+ok: [services] => {
+    "msg": "docker compose task"
+}
+
+PLAY RECAP **********************************************************************************************
+services                   : ok=19   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+### Testing the Installed Docker Engine
+To test the newly installed Docker engine, the installation instructions suggest running:
+
+```
+$ sudo docker run hello-world
+```
+
+Results:
+
+```
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+719385e32844: Pull complete
+Digest: sha256:dcba6daec718f547568c562956fa47e1b03673dd010fe6ee58ca806767031d1c
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+```
+
+### Achieving Idempotency
+When we ran the playbook with `--tags compose`, the play went through the whole apt repo
+setup process; this slowed things down a little bit. Idealy, the run that installed compose
+should not have had to change any of those options since the repo was already installed.
+
+Since we have a working Docker engine with the necessary `docker.list` file on the `services` host,
+grab that file and send it over to `control`:
+
+```
+$ scp /etc/apt/sources.list.d/docker.list \
+vagrant@control:/vagrant/playbooks/roles/docker/files/docker.list
+```
+Let's make better use of the apt module, and check for the repo configuration inside  a `block`, and
+put the repo setup tasks inside a `rescue` block. Now, I'll  have better "idempotency," and I get better performance.
+
+playbooks/roles/docker/tasks/setup_docker.yml
+```
+- name: remove conflicting packages
+  ansible.builtin.apt:
+    pkg:
+      - docker.io
+      - docker-doc
+      - docker-compose
+      - podman-docker
+      - containerd
+      - runc
+    state: absent
+- name: install the docker repo only if needed
+  block:
+    - name: check if the we have the repo already configured
+      ansible.builtin.stat:
+        path: "/etc/apt/sources.list.d/docker.list"
+      register: docker_repo_stat
+    - name: fail if docker.list isn't configured.
+      ansible.builtin.fail:
+        msg: "docker repo is not configured"
+      when: docker_repo_stat["stat"]["exists"]==false
+  rescue:
+    - name: ensure I have the dependecy packages to setup the repo
+      ansible.builtin.apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+    - name: remove the old gpg key if it already exists
+      ansible.builtin.file:
+        path: "/etc/apt/keyrings/docker.gpg"
+        state: absent
+
+    - name: grab the official GPG key
+      ansible.builtin.shell:
+        cmd: "install -m 0755 -d /etc/apt/keyrings; \
+          curl -fsSL https://download.docker.com/linux/debian/gpg | \
+          gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
+
+    - name: configure docker repo
+      ansible.builtin.copy:
+        src: "docker.list"
+        dest: "/etc/apt/sources.list.d/docker.list"
+
+- name: install docker packages
+   ansible.builtin.apt:
+     pkg:
+       - docker-ce
+       - docker-ce-cli
+       - containerd.io
+       - docker-buildx-plugin
+     update_cache: true
+     state: present
+ 
+ - name: Celebrate docker tasks being finished
+   ansible.builtin.debug:
+     msg: "Docker setup tasks finished"
+
+```
+The stat module grabs a variable, and we inspect this with the fail module. Because the 
+`/etc/apt/sources.list.d/docker.list` file isn't in place, the block fails. We use the copy module to
+place the `docker.list` file where it needs to go, and we install the gpg key.
+
+Setting things up this way ensure that it will happen only once. Future runs will not touch
+the gpg key or `/etc/apt/sources.list.d/` directory.
+
+What it looks like when we run `ansible-playbook -i inventory --tags docker playbooks/docker.yml`
+repeatedly:
+
+```
+PLAY [Setup Docker] *************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [services]
+
+TASK [include docker] ***********************************************************************************
+
+TASK [docker : Import the tasks that install just Docker] ***********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_docker.yml for services
+
+TASK [docker : remove conflicting packages] *************************************************************
+ok: [services]
+
+TASK [docker : check if the we have the repo already configured] ****************************************
+ok: [services]
+
+TASK [docker : fail if docker.list isn't configured.] ***************************************************
+skipping: [services]
+
+TASK [docker : install docker packages] *****************************************************************
+ok: [services]
+
+TASK [docker : Celebrate docker tasks being finished] ***************************************************
+ok: [services] => {
+    "msg": "Docker setup tasks finished"
+}
+
+PLAY RECAP **********************************************************************************************
+services                   : ok=6    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+```
+
+Note: all the tasks return `ok` or `skipped`. That's idempotency! Going further, I could make a 
+template for `docker.list`, so it can generate the right file for multiple debian-based configurations.
+(Not just Debian Bookworm on amd64).
+
+## Setting up a docker_lab target to Wizardlab's Makefile
+Adding a target to our make file is as simple as adding these two lines:
+
+```
+ docker_lab:
+     eval `ssh-agent` && ssh-add ~/.ssh/id_rsa && . ~/ansible/bin/activate && ansible-playbook -i         inventory /vagrant/playbooks/docker.yml
+
+```
+Now, I can start up the Wizardlab with `vagrant up`, connect to control with `vagrant ssh control`,
+run `make keys`, and make `docker_lab`, and I should have everything in `infra` role setup with docker
+and the compose plugin.
+
+```
+$ make docker_lab
+```
+
+Results:
+
+```
+eval `ssh-agent` && ssh-add ~/.ssh/id_rsa && . ~/ansible/bin/activate && ansible-playbook -i inventory /vagrant/playbooks/docker.yml
+Agent pid 16492
+Identity added: /home/vagrant/.ssh/id_rsa (localhost)
+
+PLAY [Setup Docker] *************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [services]
+
+TASK [include infra] ************************************************************************************
+
+TASK [infra : Import tasks to setup isc-dhcp-server by default] *****************************************
+included: /vagrant/playbooks/roles/infra/tasks/dhcp_conf.yml for services
+
+TASK [infra : Deploying dhcpd.conf] *********************************************************************
+changed: [services]
+
+TASK [infra : copy dhcp defaults (eth1 and ipv4 only)] **************************************************
+changed: [services]
+
+TASK [infra : install dependencies] *********************************************************************
+changed: [services]
+
+TASK [infra : Alternatively, setup Kea in a memfile configuration] **************************************
+included: /vagrant/playbooks/roles/infra/tasks/kea-memfile.yml for services
+
+TASK [include docker] ***********************************************************************************
+
+TASK [docker : Import the tasks that install just Docker] ***********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_docker.yml for services
+
+TASK [docker : remove conflicting packages] *************************************************************
+ok: [services]
+
+TASK [docker : check if the we have the repo already configured] ****************************************
+ok: [services]
+
+TASK [docker : fail if docker.list isn't configured.] ***************************************************
+fatal: [services]: FAILED! => {"changed": false, "msg": "docker repo is not configured"}
+
+TASK [docker : ensure I have the dependecy packages to setup the repo] **********************************
+changed: [services]
+
+TASK [docker : remove the old gpg key if it already exists] *********************************************
+ok: [services]
+
+TASK [docker : grab the official GPG key] ***************************************************************
+changed: [services]
+
+TASK [docker : configure docker repo] *******************************************************************
+changed: [services]
+
+TASK [docker : install docker packages] *****************************************************************
+changed: [services]
+
+TASK [docker : Celebrate docker tasks being finished] ***************************************************
+ok: [services] => {
+    "msg": "Docker setup tasks finished"
+}
+
+TASK [docker : Import the tasks that install Docker Compose] ********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_compose.yml for services
+
+TASK [docker : Install the docker compose plugin] *******************************************************
+ok: [services]
+
+TASK [docker : Celebrate the docker compose task running] ***********************************************
+ok: [services] => {
+    "msg": "docker compose task"
+}
+
+PLAY RECAP **********************************************************************************************
+services                   : ok=18   changed=7    unreachable=0    failed=0    skipped=0    rescued=1    ignored=0 
+```
+With those few commands, I have a fresh setup to practice building something new on top of
+docker!
+
+## Docker in Wizardlab
+Now that we have a working Docker role, I can assemble configuration that is built on Docker
+containers. Docker makes managing complex services simpler by bundling the automation of multiple
+containers under a single `docker compose` command.
+
+When I set out to build Wizardlab, I decided that I would want docker for certain
+services:
+- Nginx: HTTPS proxy, so we can simply certificate management
+- Bind9: authoritative DNS
+- Unbound: recoursive DNS lookup, and DNS proxy
+- Kea: Next generation DHCP server from ISC
+- ISC's Stork, for managing Kea and Bind
+- FreeIPA: Kerberos, LDAP, host-based access control, Certificate and Key management
+- All-in-one Openstack with StackHPC's Kayobe
+- Gitlab, Gitea: Options for version control and CI/CD automation
+- Jenkins: More options for CI/CD
+- Wordpress: Popular CMS. Not everyone wants to blog with `vi` and sphinx static-page pipeline.
+
+Building these services in Docker allows me to diversify my code-base: branching into several public
+facing projects.I can build services that can translate directly to anywhere Docker engine is installed.
+
+In the Wizardlab playbooks, I can instruct `services` to `git clone` a repository for a service that
+runs on top of Docker, build the containers, and start the services with one `docker compose up -d`
+command.
+

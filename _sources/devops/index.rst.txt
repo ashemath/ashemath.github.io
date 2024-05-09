@@ -2,16 +2,18 @@ Devops
 =====================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
    :hidden:
-   :titlesonly:
-
    
-   Devops.md
    Wizardlab.md
    Playbooks.md
+   Wizardlab-bind9.md
+   wizardlab-docs.md
+   ansible-thewizard.md
+   Docker.md
    Hypervisors.rst
+   install_docker.md
 
    
 
@@ -47,6 +49,7 @@ configuration based on properties of the host it targets. Groups of hosts
 can be assigned and nested to create practically anything.
 
 - `Wizardlab's Configuration Playbooks <Playbooks.html>`_
+- `How I built Docker support into Wizardlab <Docker.html>`_
 
 My DevOps Story
 -----------------

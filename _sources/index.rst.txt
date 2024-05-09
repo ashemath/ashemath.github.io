@@ -2,7 +2,7 @@ Bill the Wizard
 =====================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
    :hidden:
 
@@ -10,6 +10,7 @@ Bill the Wizard
    Art.md
    Biography.md
    devops/index.rst
+   linux/index.rst
    
 Nerd, Father, Legend.
 ----------------------
@@ -17,17 +18,24 @@ Nerd, Father, Legend.
 .. image:: images/profile/wizard.jpg
    :width: 300pt
 
+Musings, documentation, art, and more by the Bill the Wizard.
+
+The Work
+_________
 I work as a System and Network Administrator for a Public University. Our small team of Administrators manage 150+ Desktop systems, infrastructure hosts, and a range of workloads.
 
 We deploy onto baremetal, virtual machines, and containers. My specialized role on the team is Network administration, but I participate in a wide range of projects including infrastructure monitoring,
 public documentation, hardware troubleshooting, and the delivery of various networked services. Lately, I have learned how to manage both Linux and Windows systems with Ansible.
 
-From my Linux workstation, I can image and configure lab machines in either Windows or Linux, at scale.
-I manage network equipment, host network configuration, and network services with SSH and Ansible.
+From my Linux workstation, I can image and configure lab machines in either Windows or Linux, at scale. I manage network equipment, host network
+configuration, and network services with SSH and Ansible.
 
-I share my personal training/development environment on Github. In my code, I deploy virtual machines, 
-and I automate configuration of services; this collection of code serves as a repository of system
-administration ideas, testing ground for new configuration, and display of my skill development.
+Wizardlab
+__________
+I share my personal training/development environment on Github. In my code,
+I deploy virtual machines, and I automate configuration of services; this
+collection of code serves as a repository of system administration ideas,
+testing ground for new configuration, and display of my skill development.
 
 Learn more about `Wizardlab`_
 

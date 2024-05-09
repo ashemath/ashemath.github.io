@@ -1,0 +1,1000 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Hypervisors" href="Hypervisors.html" /><link rel="prev" title="Ansible Roles and “The Wizard”" href="ansible-thewizard.html" />
+
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
+        <title>Docker and Ansible - Bill the Wizard&#39;s Homepage</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" /
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Bill the Wizard's Homepage</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">Bill the Wizard's Homepage</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Art.html">Art</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Biography.html">Biography</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Devops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Devops</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Wizardlab.html">Wizard Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Playbooks.html">Wizardlab: How it Works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Wizardlab-bind9.html">Wizardlab DNS Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Wizardlab-bind9.html#wizardlab-bind9">Wizardlab-bind9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizardlab-docs.html">Wizardlab-docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible-thewizard.html">Ansible Roles and “The Wizard”</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Docker and Ansible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hypervisors.html">Hypervisors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_docker.html">Install Docker on Debian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../linux/index.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Linux</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../linux/Chroot.html">Linux Recovery with Live USB and Chroot</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/devops/Docker.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="docker-and-ansible">
+<h1>Docker and Ansible<a class="headerlink" href="#docker-and-ansible" title="Link to this heading">¶</a></h1>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Link to this heading">¶</a></h2>
+<p>Docker is another fabulous tool for System Administration. Docker lets you
+isolate system processes. Rather than simulating a whole other system, like
+with a VM, you can replicate the function of a different operating system.</p>
+<p>Docker is an example of “containerization.” It’s far from the only solution,
+but it’s a solid product that can get you started building things faster.</p>
+<p>Instead of setting up a new server, you download a tiny image of a root
+filesystem, and boot it up with processes isolated from your host system
+using cgroups.</p>
+<p>For Wizardlab, this means we can deploy a variety of servers onto the one
+<code class="docutils literal notranslate"><span class="pre">services</span></code>  host. Mix or match Operating Systems, network things together,
+take over host network ports, and script out the whole thing in easy human
+readable configuration files. It’s lovely.</p>
+<p>I’ll be setting up Docker and the Docker Compose plugin. <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">compose</span></code> to
+Docker as ansible-playbook is to ansible. It’s another level of automaion.
+The <code class="docutils literal notranslate"><span class="pre">docker</span></code> command runs the file called <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> inside ${PWD} while
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> will look for a file named <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> (.yaml works too!).</p>
+</section>
+<section id="the-docker-role">
+<h2>The Docker role<a class="headerlink" href="#the-docker-role" title="Link to this heading">¶</a></h2>
+<p>Here’s how I decided to design a “docker” role for Wizardlab. By no means is this
+<em>the</em> way to design something like this. Rather, this is how I decided to practice
+writing Ansible configuration in the context of automating docker setup on
+debian.</p>
+<p>I decided to have the docker role only install Docker by default, without the
+docker compose plugin. I am doing this to demonstrate the use of tags, and I would
+probably delete all the tag stuff if I was using this at work.</p>
+<section id="the-process">
+<h3>The Process<a class="headerlink" href="#the-process" title="Link to this heading">¶</a></h3>
+<p>I create a new role under <code class="docutils literal notranslate"><span class="pre">playbooks/roles/docker</span></code>, and I setup file, template,
+and task subdirectories, utilizing BASH expansion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir -p playbooks/roles/docker/{files,tasks,templates}
+</pre></div>
+</div>
+<p>I create a all-powerful playbook file under <code class="docutils literal notranslate"><span class="pre">/playbooks</span></code> that will
+drive the rest of the files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vi playbooks/docker.yml
+</pre></div>
+</div>
+<p>This playbook specifies Hosts\groups that I want to
+target, and imports the role I want in the proper order. I use ‘roles’ to
+run the ‘infra’ role which will give me DHCP services on <code class="docutils literal notranslate"><span class="pre">services</span></code> before
+I setup Docker if I give run the playbook without tags.</p>
+<p>When I run with the <code class="docutils literal notranslate"><span class="pre">--tag</span> <span class="pre">docker</span></code> option, I should get docker setup without
+installing dhcp.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span>
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Setup Docker&quot;</span>
+  <span class="n">hosts</span><span class="p">:</span> <span class="n">services</span>
+  <span class="n">become</span><span class="p">:</span> <span class="n">yes</span>
+
+  <span class="n">tasks</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">include</span> <span class="n">infra</span>
+    <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">include_role</span><span class="p">:</span>
+      <span class="n">name</span><span class="p">:</span> <span class="n">infra</span>
+  <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">include</span> <span class="n">docker</span>
+    <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">include_role</span><span class="p">:</span>
+      <span class="n">name</span><span class="p">:</span> <span class="n">docker</span>
+    <span class="n">tags</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">docker</span>
+      <span class="o">-</span> <span class="n">always</span>
+
+</pre></div>
+</div>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">main.yml</span></code> file under playbooks/docker/tasks/:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vi playbooks/roles/docker/tasks/main.yml
+</pre></div>
+</div>
+<p>This file will pull in the task files that we design to setup docker. For this
+design, I will put it all in two task files, so I can decide whether I want Docker only,
+or both Docker and the docker compose plugin.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">just</span> <span class="n">Docker</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">include_tasks</span><span class="p">:</span>
+    <span class="n">file</span><span class="p">:</span> <span class="s2">&quot;setup_docker.yml&quot;</span>
+    <span class="n">apply</span><span class="p">:</span>
+      <span class="n">tags</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">always</span>
+        <span class="o">-</span> <span class="n">docker</span>
+  <span class="n">tags</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">always</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">Docker</span> <span class="n">Compose</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">include_tasks</span><span class="p">:</span>
+    <span class="n">file</span><span class="p">:</span> <span class="s2">&quot;setup_compose.yml&quot;</span>
+    <span class="n">apply</span><span class="p">:</span>
+      <span class="n">tags</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">compose</span>
+  <span class="n">tags</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">compose</span>
+</pre></div>
+</div>
+<p>I want the docker compose task to not run when I specify only the ‘docker’ tag,
+so I give the second include only the <code class="docutils literal notranslate"><span class="pre">compose</span></code> tag, and the compose tasks will run if I do not specify
+tags, or if I specify <code class="docutils literal notranslate"><span class="pre">--tags</span> <span class="pre">docker,compose</span></code>.
+This is a way to setup “defaults” for what tasks a role will include, but allow you to switch it up if you need to with the ansible-playbook <code class="docutils literal notranslate"><span class="pre">--tags</span></code> option. Tags are pretty neat.</p>
+<p>Next, I create the two task files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vi playbooks/roles/docker/tasks/setup_docker.yml
+</pre></div>
+</div>
+<p>entering in the necessary tasks, I used this page for the recommended approach:
+<a class="reference external" href="https://docs.docker.com/engine/install/debian/">docs.docker.com/engine/install/debian/</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">remove</span> <span class="n">conflicting</span> <span class="n">packages</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
+    <span class="n">cmd</span><span class="p">:</span> <span class="s2">&quot;for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; </span><span class="se">\</span>
+<span class="s2">      do sudo apt-get remove $pkg; done&quot;</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">ensure</span> <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">dependency</span> <span class="n">packages</span> <span class="n">to</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repo</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">apt</span><span class="p">:</span>
+    <span class="n">pkg</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">ca</span><span class="o">-</span><span class="n">certificates</span>
+      <span class="o">-</span> <span class="n">curl</span>
+      <span class="o">-</span> <span class="n">gnupg</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">present</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">gpg</span> <span class="n">key</span> <span class="k">if</span> <span class="n">it</span> <span class="n">already</span> <span class="n">exists</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+    <span class="n">path</span><span class="p">:</span> <span class="s2">&quot;/etc/apt/keyrings/docker.gpg&quot;</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">absent</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">grab</span> <span class="n">the</span> <span class="n">official</span> <span class="n">GPG</span> <span class="n">key</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
+    <span class="n">cmd</span><span class="p">:</span> <span class="s2">&quot;install -m 0755 -d /etc/apt/keyrings; </span><span class="se">\</span>
+<span class="s2">      curl -fsSL https://download.docker.com/linux/debian/gpg | </span><span class="se">\</span>
+<span class="s2">      gpg --dearmor -o /etc/apt/keyrings/docker.gpg&quot;</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">repo</span> <span class="n">file</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+    <span class="n">path</span><span class="p">:</span> <span class="s2">&quot;/etc/apt/sources.list.d/docker.list&quot;</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">absent</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repository</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
+    <span class="n">cmd</span><span class="p">:</span> <span class="s2">&quot;echo &#39;deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] </span><span class="se">\</span>
+<span class="s2">      https://download.docker.com/linux/debian bookworm stable&#39; | </span><span class="se">\</span>
+<span class="s2">      tee /etc/apt/sources.list.d/docker.list &gt; /dev/null&quot;</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">update</span> <span class="n">the</span> <span class="n">app</span> <span class="n">repo</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span> <span class="s2">&quot;apt update&quot;</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">install</span> <span class="n">docker</span> <span class="n">packages</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">apt</span><span class="p">:</span>
+    <span class="n">pkg</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span>
+      <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span>
+      <span class="o">-</span> <span class="n">containerd</span><span class="o">.</span><span class="n">io</span>
+      <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">buildx</span><span class="o">-</span><span class="n">plugin</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Celebrate</span> <span class="n">docker</span> <span class="n">tasks</span> <span class="n">being</span> <span class="n">finished</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;Docker setup tasks finished&quot;</span>
+
+</pre></div>
+</div>
+<p>Next, a tiny task file that just installs the one package for docker compose:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vi playbooks/roles/docker/tasks/setup_compose.yml
+</pre></div>
+</div>
+<p>and enter a few lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Install</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">plugin</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">apt</span><span class="p">:</span>
+    <span class="n">pkg</span><span class="p">:</span> <span class="n">docker</span><span class="o">-</span><span class="n">compose</span><span class="o">-</span><span class="n">plugin</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Celebrate</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">task</span> <span class="n">running</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;docker compose task&quot;</span>
+
+</pre></div>
+</div>
+<p>Let’s test it out:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vagrant ssh control
+</pre></div>
+</div>
+<p>Now I am connected to control, let’s go to the /vagrant/ folder to pickup our latest edits
+Note: Vagrant copies the /playbook directory to ~ at provisioning. If you start the provisioning
+before building  playbooks, you’ll want to move over to /vagrant</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd /vagrant
+</pre></div>
+</div>
+<p>let’s activate the ansible Python virtual environment (venv) in our home dirctory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source ~/ansible/bin/activate
+</pre></div>
+</div>
+<p>Next, run the playbook and just install docker!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(ansible)$ ansible-playbook -i inventory --tags docker playbooks/docker.yml
+</pre></div>
+</div>
+<p>The results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PLAY</span> <span class="p">[</span><span class="n">Setup</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">*************************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">Gathering</span> <span class="n">Facts</span><span class="p">]</span> <span class="o">**********************************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">include</span> <span class="n">docker</span><span class="p">]</span> <span class="o">***********************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">just</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">***********************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">setup_docker</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">conflicting</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">ensure</span> <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">dependecy</span> <span class="n">packages</span> <span class="n">to</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repo</span><span class="p">]</span> <span class="o">**********************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">gpg</span> <span class="n">key</span> <span class="k">if</span> <span class="n">it</span> <span class="n">already</span> <span class="n">exists</span><span class="p">]</span> <span class="o">*********************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">grab</span> <span class="n">the</span> <span class="n">official</span> <span class="n">GPG</span> <span class="n">key</span><span class="p">]</span> <span class="o">***************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">repo</span> <span class="n">file</span><span class="p">]</span> <span class="o">****************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repository</span><span class="p">]</span> <span class="o">********************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">update</span> <span class="n">the</span> <span class="n">apt</span> <span class="n">database</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">install</span> <span class="n">docker</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Celebrate</span> <span class="n">docker</span> <span class="n">tasks</span> <span class="n">being</span> <span class="n">finished</span><span class="p">]</span> <span class="o">***************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Docker setup tasks finished&quot;</span>
+<span class="p">}</span>
+
+<span class="n">PLAY</span> <span class="n">RECAP</span> <span class="o">**********************************************************************************************</span>
+<span class="n">services</span>                   <span class="p">:</span> <span class="n">ok</span><span class="o">=</span><span class="mi">11</span>   <span class="n">changed</span><span class="o">=</span><span class="mi">6</span>    <span class="n">unreachable</span><span class="o">=</span><span class="mi">0</span>    <span class="n">failed</span><span class="o">=</span><span class="mi">0</span>    <span class="n">skipped</span><span class="o">=</span><span class="mi">0</span>    <span class="n">rescued</span><span class="o">=</span><span class="mi">0</span>    <span class="n">ignored</span><span class="o">=</span><span class="mi">0</span>   
+</pre></div>
+</div>
+<p>Now, to add the compose plugin by including the <code class="docutils literal notranslate"><span class="pre">--tag</span> <span class="pre">compose</span></code> option. Both task
+files run now, yet Ansible only needs to apply the single task from the <code class="docutils literal notranslate"><span class="pre">setup_compose.yml</span></code>
+include in <code class="docutils literal notranslate"><span class="pre">playbooks/docker.yml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(ansible)$ ansible-playbook -i inventory --tags compose playbooks/docker.yml
+</pre></div>
+</div>
+<p>Results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PLAY</span> <span class="p">[</span><span class="n">Setup</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">*************************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">Gathering</span> <span class="n">Facts</span><span class="p">]</span> <span class="o">**********************************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">include</span> <span class="n">docker</span><span class="p">]</span> <span class="o">***********************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">just</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">***********************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">setup_docker</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">conflicting</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">ensure</span> <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">dependecy</span> <span class="n">packages</span> <span class="n">to</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repo</span><span class="p">]</span> <span class="o">**********************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">gpg</span> <span class="n">key</span> <span class="k">if</span> <span class="n">it</span> <span class="n">already</span> <span class="n">exists</span><span class="p">]</span> <span class="o">*********************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">grab</span> <span class="n">the</span> <span class="n">official</span> <span class="n">GPG</span> <span class="n">key</span><span class="p">]</span> <span class="o">***************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">repo</span> <span class="n">file</span><span class="p">]</span> <span class="o">****************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repository</span><span class="p">]</span> <span class="o">********************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">update</span> <span class="n">the</span> <span class="n">apt</span> <span class="n">database</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">install</span> <span class="n">docker</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Celebrate</span> <span class="n">docker</span> <span class="n">tasks</span> <span class="n">being</span> <span class="n">finished</span><span class="p">]</span> <span class="o">***************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Docker setup tasks finished&quot;</span>
+<span class="p">}</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">Docker</span> <span class="n">Compose</span><span class="p">]</span> <span class="o">********************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">setup_compose</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Install</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">plugin</span><span class="p">]</span> <span class="o">*******************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Celebrate</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">task</span> <span class="n">running</span><span class="p">]</span> <span class="o">***********************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;docker compose task&quot;</span>
+<span class="p">}</span>
+
+<span class="n">PLAY</span> <span class="n">RECAP</span> <span class="o">**********************************************************************************************</span>
+<span class="n">services</span>                   <span class="p">:</span> <span class="n">ok</span><span class="o">=</span><span class="mi">14</span>   <span class="n">changed</span><span class="o">=</span><span class="mi">6</span>    <span class="n">unreachable</span><span class="o">=</span><span class="mi">0</span>    <span class="n">failed</span><span class="o">=</span><span class="mi">0</span>    <span class="n">skipped</span><span class="o">=</span><span class="mi">0</span>    <span class="n">rescued</span><span class="o">=</span><span class="mi">0</span>    <span class="n">ignored</span><span class="o">=</span><span class="mi">0</span> 
+</pre></div>
+</div>
+<p>Next, I pull the ole’ Test Kitchen trick, and show you what happens if I run the last command
+on a fresh VM. We’ll need to setup a clean uninstall playbook later… Notice, both task lists execute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(ansible)$ ansible-playbook -i inventory --tags compose playbooks/docker.yml
+</pre></div>
+</div>
+<p>Results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PLAY</span> <span class="p">[</span><span class="n">Setup</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">*************************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">Gathering</span> <span class="n">Facts</span><span class="p">]</span> <span class="o">**********************************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">include</span> <span class="n">infra</span><span class="p">]</span> <span class="o">************************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">infra</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">tasks</span> <span class="n">to</span> <span class="n">setup</span> <span class="n">isc</span><span class="o">-</span><span class="n">dhcp</span><span class="o">-</span><span class="n">server</span> <span class="n">by</span> <span class="n">default</span><span class="p">]</span> <span class="o">*****************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">infra</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">dhcp_conf</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">infra</span> <span class="p">:</span> <span class="n">Deploying</span> <span class="n">dhcpd</span><span class="o">.</span><span class="n">conf</span><span class="p">]</span> <span class="o">*********************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">infra</span> <span class="p">:</span> <span class="n">copy</span> <span class="n">dhcp</span> <span class="n">defaults</span> <span class="p">(</span><span class="n">eth1</span> <span class="ow">and</span> <span class="n">ipv4</span> <span class="n">only</span><span class="p">)]</span> <span class="o">**************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">infra</span> <span class="p">:</span> <span class="n">install</span> <span class="n">dependencies</span><span class="p">]</span> <span class="o">*********************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">infra</span> <span class="p">:</span> <span class="n">Alternatively</span><span class="p">,</span> <span class="n">setup</span> <span class="n">Kea</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">memfile</span> <span class="n">configuration</span><span class="p">]</span> <span class="o">**************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">infra</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">kea</span><span class="o">-</span><span class="n">memfile</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">include</span> <span class="n">docker</span><span class="p">]</span> <span class="o">***********************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">just</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">***********************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">setup_docker</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">conflicting</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">ensure</span> <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">dependecy</span> <span class="n">packages</span> <span class="n">to</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repo</span><span class="p">]</span> <span class="o">**********************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">gpg</span> <span class="n">key</span> <span class="k">if</span> <span class="n">it</span> <span class="n">already</span> <span class="n">exists</span><span class="p">]</span> <span class="o">*********************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">grab</span> <span class="n">the</span> <span class="n">official</span> <span class="n">GPG</span> <span class="n">key</span><span class="p">]</span> <span class="o">***************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">repo</span> <span class="n">file</span><span class="p">]</span> <span class="o">****************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repository</span><span class="p">]</span> <span class="o">********************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">update</span> <span class="n">the</span> <span class="n">apt</span> <span class="n">database</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">install</span> <span class="n">docker</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">changed</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Celebrate</span> <span class="n">docker</span> <span class="n">tasks</span> <span class="n">being</span> <span class="n">finished</span><span class="p">]</span> <span class="o">***************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Docker setup tasks finished&quot;</span>
+<span class="p">}</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">Docker</span> <span class="n">Compose</span><span class="p">]</span> <span class="o">********************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">setup_compose</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Install</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">plugin</span><span class="p">]</span> <span class="o">*******************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Celebrate</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">task</span> <span class="n">running</span><span class="p">]</span> <span class="o">***********************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;docker compose task&quot;</span>
+<span class="p">}</span>
+
+<span class="n">PLAY</span> <span class="n">RECAP</span> <span class="o">**********************************************************************************************</span>
+<span class="n">services</span>                   <span class="p">:</span> <span class="n">ok</span><span class="o">=</span><span class="mi">19</span>   <span class="n">changed</span><span class="o">=</span><span class="mi">9</span>    <span class="n">unreachable</span><span class="o">=</span><span class="mi">0</span>    <span class="n">failed</span><span class="o">=</span><span class="mi">0</span>    <span class="n">skipped</span><span class="o">=</span><span class="mi">0</span>    <span class="n">rescued</span><span class="o">=</span><span class="mi">0</span>    <span class="n">ignored</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="testing-the-installed-docker-engine">
+<h3>Testing the Installed Docker Engine<a class="headerlink" href="#testing-the-installed-docker-engine" title="Link to this heading">¶</a></h3>
+<p>To test the newly installed Docker engine, the installation instructions suggest running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo docker run hello-world
+</pre></div>
+</div>
+<p>Results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Unable to find image &#39;hello-world:latest&#39; locally
+latest: Pulling from library/hello-world
+719385e32844: Pull complete
+Digest: sha256:dcba6daec718f547568c562956fa47e1b03673dd010fe6ee58ca806767031d1c
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+</pre></div>
+</div>
+</section>
+<section id="achieving-idempotency">
+<h3>Achieving Idempotency<a class="headerlink" href="#achieving-idempotency" title="Link to this heading">¶</a></h3>
+<p>When we ran the playbook with <code class="docutils literal notranslate"><span class="pre">--tags</span> <span class="pre">compose</span></code>, the play went through the whole apt repo
+setup process; this slowed things down a little bit. Idealy, the run that installed compose
+should not have had to change any of those options since the repo was already installed.</p>
+<p>Since we have a working Docker engine with the necessary <code class="docutils literal notranslate"><span class="pre">docker.list</span></code> file on the <code class="docutils literal notranslate"><span class="pre">services</span></code> host,
+grab that file and send it over to <code class="docutils literal notranslate"><span class="pre">control</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ scp /etc/apt/sources.list.d/docker.list \
+vagrant@control:/vagrant/playbooks/roles/docker/files/docker.list
+</pre></div>
+</div>
+<p>Let’s make better use of the apt module, and check for the repo configuration inside  a <code class="docutils literal notranslate"><span class="pre">block</span></code>, and
+put the repo setup tasks inside a <code class="docutils literal notranslate"><span class="pre">rescue</span></code> block. Now, I’ll  have better “idempotency,” and I get better performance.</p>
+<p>playbooks/roles/docker/tasks/setup_docker.yml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">remove</span> <span class="n">conflicting</span> <span class="n">packages</span>
+  <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">apt</span><span class="p">:</span>
+    <span class="n">pkg</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">docker</span><span class="o">.</span><span class="n">io</span>
+      <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">doc</span>
+      <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">compose</span>
+      <span class="o">-</span> <span class="n">podman</span><span class="o">-</span><span class="n">docker</span>
+      <span class="o">-</span> <span class="n">containerd</span>
+      <span class="o">-</span> <span class="n">runc</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">absent</span>
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">install</span> <span class="n">the</span> <span class="n">docker</span> <span class="n">repo</span> <span class="n">only</span> <span class="k">if</span> <span class="n">needed</span>
+  <span class="n">block</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">check</span> <span class="k">if</span> <span class="n">the</span> <span class="n">we</span> <span class="n">have</span> <span class="n">the</span> <span class="n">repo</span> <span class="n">already</span> <span class="n">configured</span>
+      <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">stat</span><span class="p">:</span>
+        <span class="n">path</span><span class="p">:</span> <span class="s2">&quot;/etc/apt/sources.list.d/docker.list&quot;</span>
+      <span class="n">register</span><span class="p">:</span> <span class="n">docker_repo_stat</span>
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">fail</span> <span class="k">if</span> <span class="n">docker</span><span class="o">.</span><span class="n">list</span> <span class="n">isn</span><span class="s1">&#39;t configured.</span>
+      <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">fail</span><span class="p">:</span>
+        <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;docker repo is not configured&quot;</span>
+      <span class="n">when</span><span class="p">:</span> <span class="n">docker_repo_stat</span><span class="p">[</span><span class="s2">&quot;stat&quot;</span><span class="p">][</span><span class="s2">&quot;exists&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">false</span>
+  <span class="n">rescue</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">ensure</span> <span class="n">I</span> <span class="n">have</span> <span class="n">the</span> <span class="n">dependecy</span> <span class="n">packages</span> <span class="n">to</span> <span class="n">setup</span> <span class="n">the</span> <span class="n">repo</span>
+      <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">apt</span><span class="p">:</span>
+        <span class="n">pkg</span><span class="p">:</span>
+          <span class="o">-</span> <span class="n">ca</span><span class="o">-</span><span class="n">certificates</span>
+          <span class="o">-</span> <span class="n">curl</span>
+          <span class="o">-</span> <span class="n">gnupg</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">present</span>
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">old</span> <span class="n">gpg</span> <span class="n">key</span> <span class="k">if</span> <span class="n">it</span> <span class="n">already</span> <span class="n">exists</span>
+      <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+        <span class="n">path</span><span class="p">:</span> <span class="s2">&quot;/etc/apt/keyrings/docker.gpg&quot;</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">absent</span>
+
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">grab</span> <span class="n">the</span> <span class="n">official</span> <span class="n">GPG</span> <span class="n">key</span>
+      <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="p">:</span> <span class="s2">&quot;install -m 0755 -d /etc/apt/keyrings; </span><span class="se">\</span>
+<span class="s2">          curl -fsSL https://download.docker.com/linux/debian/gpg | </span><span class="se">\</span>
+<span class="s2">          gpg --dearmor -o /etc/apt/keyrings/docker.gpg&quot;</span>
+
+    <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">configure</span> <span class="n">docker</span> <span class="n">repo</span>
+      <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">copy</span><span class="p">:</span>
+        <span class="n">src</span><span class="p">:</span> <span class="s2">&quot;docker.list&quot;</span>
+        <span class="n">dest</span><span class="p">:</span> <span class="s2">&quot;/etc/apt/sources.list.d/docker.list&quot;</span>
+
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">install</span> <span class="n">docker</span> <span class="n">packages</span>
+   <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">apt</span><span class="p">:</span>
+     <span class="n">pkg</span><span class="p">:</span>
+       <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span>
+       <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span>
+       <span class="o">-</span> <span class="n">containerd</span><span class="o">.</span><span class="n">io</span>
+       <span class="o">-</span> <span class="n">docker</span><span class="o">-</span><span class="n">buildx</span><span class="o">-</span><span class="n">plugin</span>
+     <span class="n">update_cache</span><span class="p">:</span> <span class="n">true</span>
+     <span class="n">state</span><span class="p">:</span> <span class="n">present</span>
+ 
+ <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Celebrate</span> <span class="n">docker</span> <span class="n">tasks</span> <span class="n">being</span> <span class="n">finished</span>
+   <span class="n">ansible</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+     <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;Docker setup tasks finished&quot;</span>
+
+</pre></div>
+</div>
+<p>The stat module grabs a variable, and we inspect this with the fail module. Because the
+<code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/docker.list</span></code> file isn’t in place, the block fails. We use the copy module to
+place the <code class="docutils literal notranslate"><span class="pre">docker.list</span></code> file where it needs to go, and we install the gpg key.</p>
+<p>Setting things up this way ensure that it will happen only once. Future runs will not touch
+the gpg key or <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/</span></code> directory.</p>
+<p>What it looks like when we run <code class="docutils literal notranslate"><span class="pre">ansible-playbook</span> <span class="pre">-i</span> <span class="pre">inventory</span> <span class="pre">--tags</span> <span class="pre">docker</span> <span class="pre">playbooks/docker.yml</span></code>
+repeatedly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PLAY</span> <span class="p">[</span><span class="n">Setup</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">*************************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">Gathering</span> <span class="n">Facts</span><span class="p">]</span> <span class="o">**********************************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">include</span> <span class="n">docker</span><span class="p">]</span> <span class="o">***********************************************************************************</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Import</span> <span class="n">the</span> <span class="n">tasks</span> <span class="n">that</span> <span class="n">install</span> <span class="n">just</span> <span class="n">Docker</span><span class="p">]</span> <span class="o">***********************************************</span>
+<span class="n">included</span><span class="p">:</span> <span class="o">/</span><span class="n">vagrant</span><span class="o">/</span><span class="n">playbooks</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">tasks</span><span class="o">/</span><span class="n">setup_docker</span><span class="o">.</span><span class="n">yml</span> <span class="k">for</span> <span class="n">services</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">remove</span> <span class="n">conflicting</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">check</span> <span class="k">if</span> <span class="n">the</span> <span class="n">we</span> <span class="n">have</span> <span class="n">the</span> <span class="n">repo</span> <span class="n">already</span> <span class="n">configured</span><span class="p">]</span> <span class="o">****************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">fail</span> <span class="k">if</span> <span class="n">docker</span><span class="o">.</span><span class="n">list</span> <span class="n">isn</span><span class="s1">&#39;t configured.] ***************************************************</span>
+<span class="n">skipping</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">install</span> <span class="n">docker</span> <span class="n">packages</span><span class="p">]</span> <span class="o">*****************************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span>
+
+<span class="n">TASK</span> <span class="p">[</span><span class="n">docker</span> <span class="p">:</span> <span class="n">Celebrate</span> <span class="n">docker</span> <span class="n">tasks</span> <span class="n">being</span> <span class="n">finished</span><span class="p">]</span> <span class="o">***************************************************</span>
+<span class="n">ok</span><span class="p">:</span> <span class="p">[</span><span class="n">services</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Docker setup tasks finished&quot;</span>
+<span class="p">}</span>
+
+<span class="n">PLAY</span> <span class="n">RECAP</span> <span class="o">**********************************************************************************************</span>
+<span class="n">services</span>                   <span class="p">:</span> <span class="n">ok</span><span class="o">=</span><span class="mi">6</span>    <span class="n">changed</span><span class="o">=</span><span class="mi">0</span>    <span class="n">unreachable</span><span class="o">=</span><span class="mi">0</span>    <span class="n">failed</span><span class="o">=</span><span class="mi">0</span>    <span class="n">skipped</span><span class="o">=</span><span class="mi">1</span>    <span class="n">rescued</span><span class="o">=</span><span class="mi">0</span>    <span class="n">ignored</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Note: all the tasks return <code class="docutils literal notranslate"><span class="pre">ok</span></code> or <code class="docutils literal notranslate"><span class="pre">skipped</span></code>. That’s idempotency! Going further, I could make a
+template for <code class="docutils literal notranslate"><span class="pre">docker.list</span></code>, so it can generate the right file for multiple debian-based configurations.
+(Not just Debian Bookworm on amd64).</p>
+</section>
+</section>
+<section id="setting-up-a-docker-lab-target-to-wizardlab-s-makefile">
+<h2>Setting up a docker_lab target to Wizardlab’s Makefile<a class="headerlink" href="#setting-up-a-docker-lab-target-to-wizardlab-s-makefile" title="Link to this heading">¶</a></h2>
+<p>Adding a target to our make file is as simple as adding these two lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> docker_lab:
+     eval `ssh-agent` &amp;&amp; ssh-add ~/.ssh/id_rsa &amp;&amp; . ~/ansible/bin/activate &amp;&amp; ansible-playbook -i         inventory /vagrant/playbooks/docker.yml
+
+</pre></div>
+</div>
+<p>Now, I can start up the Wizardlab with <code class="docutils literal notranslate"><span class="pre">vagrant</span> <span class="pre">up</span></code>, connect to control with <code class="docutils literal notranslate"><span class="pre">vagrant</span> <span class="pre">ssh</span> <span class="pre">control</span></code>,
+run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">keys</span></code>, and make <code class="docutils literal notranslate"><span class="pre">docker_lab</span></code>, and I should have everything in <code class="docutils literal notranslate"><span class="pre">infra</span></code> role setup with docker
+and the compose plugin.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make docker_lab
+</pre></div>
+</div>
+<p>Results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>eval `ssh-agent` &amp;&amp; ssh-add ~/.ssh/id_rsa &amp;&amp; . ~/ansible/bin/activate &amp;&amp; ansible-playbook -i inventory /vagrant/playbooks/docker.yml
+Agent pid 16492
+Identity added: /home/vagrant/.ssh/id_rsa (localhost)
+
+PLAY [Setup Docker] *************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [services]
+
+TASK [include infra] ************************************************************************************
+
+TASK [infra : Import tasks to setup isc-dhcp-server by default] *****************************************
+included: /vagrant/playbooks/roles/infra/tasks/dhcp_conf.yml for services
+
+TASK [infra : Deploying dhcpd.conf] *********************************************************************
+changed: [services]
+
+TASK [infra : copy dhcp defaults (eth1 and ipv4 only)] **************************************************
+changed: [services]
+
+TASK [infra : install dependencies] *********************************************************************
+changed: [services]
+
+TASK [infra : Alternatively, setup Kea in a memfile configuration] **************************************
+included: /vagrant/playbooks/roles/infra/tasks/kea-memfile.yml for services
+
+TASK [include docker] ***********************************************************************************
+
+TASK [docker : Import the tasks that install just Docker] ***********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_docker.yml for services
+
+TASK [docker : remove conflicting packages] *************************************************************
+ok: [services]
+
+TASK [docker : check if the we have the repo already configured] ****************************************
+ok: [services]
+
+TASK [docker : fail if docker.list isn&#39;t configured.] ***************************************************
+fatal: [services]: FAILED! =&gt; {&quot;changed&quot;: false, &quot;msg&quot;: &quot;docker repo is not configured&quot;}
+
+TASK [docker : ensure I have the dependecy packages to setup the repo] **********************************
+changed: [services]
+
+TASK [docker : remove the old gpg key if it already exists] *********************************************
+ok: [services]
+
+TASK [docker : grab the official GPG key] ***************************************************************
+changed: [services]
+
+TASK [docker : configure docker repo] *******************************************************************
+changed: [services]
+
+TASK [docker : install docker packages] *****************************************************************
+changed: [services]
+
+TASK [docker : Celebrate docker tasks being finished] ***************************************************
+ok: [services] =&gt; {
+    &quot;msg&quot;: &quot;Docker setup tasks finished&quot;
+}
+
+TASK [docker : Import the tasks that install Docker Compose] ********************************************
+included: /vagrant/playbooks/roles/docker/tasks/setup_compose.yml for services
+
+TASK [docker : Install the docker compose plugin] *******************************************************
+ok: [services]
+
+TASK [docker : Celebrate the docker compose task running] ***********************************************
+ok: [services] =&gt; {
+    &quot;msg&quot;: &quot;docker compose task&quot;
+}
+
+PLAY RECAP **********************************************************************************************
+services                   : ok=18   changed=7    unreachable=0    failed=0    skipped=0    rescued=1    ignored=0 
+</pre></div>
+</div>
+<p>With those few commands, I have a fresh setup to practice building something new on top of
+docker!</p>
+</section>
+<section id="docker-in-wizardlab">
+<h2>Docker in Wizardlab<a class="headerlink" href="#docker-in-wizardlab" title="Link to this heading">¶</a></h2>
+<p>Now that we have a working Docker role, I can assemble configuration that is built on Docker
+containers. Docker makes managing complex services simpler by bundling the automation of multiple
+containers under a single <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> command.</p>
+<p>When I set out to build Wizardlab, I decided that I would want docker for certain
+services:</p>
+<ul class="simple">
+<li><p>Nginx: HTTPS proxy, so we can simply certificate management</p></li>
+<li><p>Bind9: authoritative DNS</p></li>
+<li><p>Unbound: recoursive DNS lookup, and DNS proxy</p></li>
+<li><p>Kea: Next generation DHCP server from ISC</p></li>
+<li><p>ISC’s Stork, for managing Kea and Bind</p></li>
+<li><p>FreeIPA: Kerberos, LDAP, host-based access control, Certificate and Key management</p></li>
+<li><p>All-in-one Openstack with StackHPC’s Kayobe</p></li>
+<li><p>Gitlab, Gitea: Options for version control and CI/CD automation</p></li>
+<li><p>Jenkins: More options for CI/CD</p></li>
+<li><p>Wordpress: Popular CMS. Not everyone wants to blog with <code class="docutils literal notranslate"><span class="pre">vi</span></code> and sphinx static-page pipeline.</p></li>
+</ul>
+<p>Building these services in Docker allows me to diversify my code-base: branching into several public
+facing projects.I can build services that can translate directly to anywhere Docker engine is installed.</p>
+<p>In the Wizardlab playbooks, I can instruct <code class="docutils literal notranslate"><span class="pre">services</span></code> to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> a repository for a service that
+runs on top of Docker, build the containers, and start the services with one <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span></code>
+command.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="Hypervisors.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Hypervisors</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="ansible-thewizard.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Ansible Roles and “The Wizard”</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Bill Ashe
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Docker and Ansible</a><ul>
+<li><a class="reference internal" href="#context">Context</a></li>
+<li><a class="reference internal" href="#the-docker-role">The Docker role</a><ul>
+<li><a class="reference internal" href="#the-process">The Process</a></li>
+<li><a class="reference internal" href="#testing-the-installed-docker-engine">Testing the Installed Docker Engine</a></li>
+<li><a class="reference internal" href="#achieving-idempotency">Achieving Idempotency</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-a-docker-lab-target-to-wizardlab-s-makefile">Setting up a docker_lab target to Wizardlab’s Makefile</a></li>
+<li><a class="reference internal" href="#docker-in-wizardlab">Docker in Wizardlab</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=a4664895"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
+    </body>
+</html>

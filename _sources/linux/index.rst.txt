@@ -1,0 +1,84 @@
+Linux
+=====================
+
+Linux Tutorials, Notes, and Reflections.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   
+   Chroot.md
+
+What is Linux?
+---------------
+Linux is a product of open-source initiatives, old-school Unix inspiration, and 
+a kernel originally authored by Linus Torvalds. Linux itself is not an Operating System.
+
+Rather, Linux is a kernel that people build their "distributions" around. A
+distribution is a curated collection of tools that supports the linux kernel.
+
+Companies or organizations publish their Linux distributions and may offer service
+contracts or charge licensing fees for expansive use and/or production features.
+
+Favorite Distributions:
+-------------------------------
+For a Desktop system, I like to have lots of options for Desktop Environments,
+good driver support, and ample troubleshooting documentation:
+
+In ranked order, my top 3 favorite distributions for Desktops:
+
+1. Debian
+2. Fedora
+3. Ubuntu
+
+For a headless server, I am focused on getting something installed. I consider
+the compatibility with my use case, and I go with an option that I like that
+fits software requirements. For example, to leverage someone's container
+orchestration framework, I might need Redhat-based linux, so I might run
+Rocky. If I want to try "devstack", I probaby want to run Ubuntu.
+
+In ranked order, my tip 3 favorite distributions for headless servers:
+
+1. Debian
+2. Ubuntu
+3. Rocky
+
+Dual-boot Lifestyle
+--------------------
+I work, study, and game with Linux, but I share computers with a household of
+people who prefer a Windows environment for gaming and casual use. I need Windows
+on anything I own with a GPU, but I have learned to enjoy the freedom Linux
+distributions offer for the desktop use case.
+
+My first dual-boot
+____________________
+My first experience with Linux was when I tried a live boot Fedora CD-ROM.
+
+I tried out the desktop interface, and it took me a few days exploring the
+interface to decide it was something I would want in a dual-boot.
+
+I booted back into Windows XP, and I shrank back my C:\\ partition. I booted off of
+my CD, and I set about installing linux on that 20GB that I shrank off of Windows.
+Having a permanent installation meant that I could tackle problems with the
+configuration, and my changes would survive a reboot.
+
+Eventually, I even got the 1440x900 resolution to work! It was neat, but I was
+more into playing World of Warcraft on Windows than exploring Fedora at the time.
+
+How I Use dual-Boot today
+__________________________
+9 out of 10 times I sit down at my laptop, I will want to run Linux, but it's
+nice to keep Windows happy for everyone else to enjoy use of the hardware.
+
+I have a dual boot on my Dell gaming laptop. I have a 100GB ext4 partition
+on the "storage" SSD that I install Ubuntu on.
+
+Dual-boot gives me the option to play games on Windows while still having a full
+Linux environment available when I need it. While I love me some Linux, gaming is
+a first-class experience on Windows.
+
+While Linux has come a long way by means of supporting big game titles, some
+things require addditional tools like Wine. Even if you get things working with
+Wine, you have just mucked about with your neat Linux system to run something that
+"just works" on Windows.
+

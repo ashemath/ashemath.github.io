@@ -1,0 +1,131 @@
+# Wizardlab DNS Automation
+As a development and training environment, Wizardlab has unique requirements for
+user configurability. Users need to be able to modify DNS parameters to suit a
+variety of projects.
+
+Wizardlab is designed to operate in a production-like fashion through automated
+service setup and delivery. Wizardlab's approach to DNS exemplifies these
+ideas. While there are specific downsides to containerizing DHCP (raw vs udp socket),
+DNS performs well as a container, so it's the first Docker-based service
+that I developed for Wizardlab.
+
+Connect to control:
+```
+$ vagrant ssh control
+```
+Setup Bind9, ISC DHCP, and Docker on the `services` VM:
+```
+$ make docker_lab
+```
+
+Wizardlab's DNS is configured by the `infra` ansible role, which configures 
+Docker, DNS, and DHCP. 
+
+The `infra` role leverages the `docker` role to setup the docker engine. 
+`setup_bind.yml` ensures `wizardlab-bind9` is cloned to the `services` VM, and the service is started with `docker compose up -d`.
+
+Wizardlab's default domain is called `wizardlab.test` 
+`.test` is a special .tld that will never be registered per 
+[RFC 2606](https://www.rfc-editor.org/rfc/rfc2606.html).
+
+We setup resource records (RR) for `ns1`, `control`, and `services`
+| Name | IP Address |
+| ---- | ---------- |
+| ns1  | varies     |
+| control | 192.168.56.2 |
+| services | 192.168.56.3 |
+
+Compose will assign a private ip address on a /24 network to the ns1 container.
+For example, 172.18.0.2/24. `build_file.py` will infer the container IP address and
+add the value to the record for ns1.
+
+To revise the DNS settings, `cd` to `/vagrant/wizardlab-bind9` and  edit 
+`bind/domain.json` or `bind/options.json` then run:
+
+```
+$ sudo rebuild.sh
+```
+
+The DNS service will now be configured how you specified.
+
+As a standalone project, we have a easily BIND9 service that runs on Docker, but
+combining ansible automation with these features gives me DNS service that I can
+reconfigure reliably as I add and remove services from my development/training
+environment.
+
+## Why BIND9
+Wizardlab deploys BIND9 because it's the reference implementation of the DNS protocol,
+it's widely used and thoroughly tested, and it's available on most distributions.
+
+## Why a Docker container?
+DNS is a great service to run in a docker container. In production, docker
+containers make services easy to deploy and move between servers.
+With Wizardlab's DNS service, I saw an opportunity to develop a side-project
+that could stand alone as a Docker project
+
+# Wizardlab-bind9
+[github.com/ashemath/wizardlab-bind9](https://github.com/ashemath/wizardlab-bind9)
+
+## Overview
+This project will setup a BIND 9 DNS server using `docker compose`.
+While this project could be useful in other contexts, it's primary
+purpose is to serve as a repository for Wizardlab's DNS service automation.
+
+## Motivation
+I needed a DNS server to deliver authoritative DNS services for
+isolated training/development networks. Long term, I need something reliable
+that I can build on to manage DNS on private cloud provider networks.
+
+Wizardlab-bind9 is my idea of using Docker and Python to accomplish this
+mission.
+
+## Design
+Having a BIND server on Docker allows us to drive dns over a variety of
+network interfaces. By default, this project will override host network ports
+`53/udp` and `53/tcp`. In a isolated network context, that's probably what you
+want, but please use caution.
+
+Wizardlab-bind9 is designed so we can craft/modify the single `domain.json`.
+Specifying the domain name, forwarders, and all the records that we'd like
+in that one file.
+
+When the container starts, `build_files.py` reads `domain.json` and 
+`options.json`, parses the requested properities of the domain, and stages up
+the generated `zones.*`, `*.db`, and `named.conf.*` files in the
+`/bind/etc_bind/` and `bind/etc_bind/{primary,secondary}` subdirectories.
+
+Next, the staged files are copied from `/bind/etc_bind/*` to `/etc/bind/`
+and the `named` service is started with the command `named -4 -g`.
+The BIND service runs in the forground, so all the debug output gets caught
+by Docker's default logging service.
+
+To summarize:
+
+- Edit `domain.json`
+- Run `docker compose up -d`
+- Profit.
+
+There's a bit of magic happening between `domain.json` and the 
+`build_files.py` command. The 2nd RR is overritten by a python
+call that determines the assigned IP address for the container.
+This means that the BIND server can add the appropriate "glue"
+record reflecting the IP docker assigned the container.
+
+What this means is that any IP you specify for rr_data for the 2nd
+RR in the `domain.json` file will be overwritten. This may not be
+what you like, so feel free to edit `build_file.py` if you do not
+need this feature.
+
+## Current status 
+In it's current form, it sets up a single domain effectively.
+`Domain name`, `primary` zone status, acl groups, and as many resource records
+as you need can be set up in the one `domain.json` file.
+Server settings that contribute to `/etc/bind/named.conf.options` can be set in
+the `bind/options.json` file.
+
+`build_files.py` supports reading the `options.json` and `domain.json` files.
+I am working on having it reconcile additional `*.json` files, combining into
+one or more configured "zones" that can run on a single container, but I 
+would like to focus on configuration that needs just the single SOA and a few
+RRs for now.
+

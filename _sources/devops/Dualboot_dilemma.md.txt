@@ -1,0 +1,34 @@
+# The Dual-Boot Dillema
+
+## The Labs
+I have the privilege of working with about 200 desktop computer systems.
+Some computers are Windows, some are Linux, and we have a handful of dual-boot
+systems. We maintain the entire lab environment, network services, and .
+
+Maintaining a lab environment is crafting the secret configuration management
+formula and applying it to computers en-masse on a routine basis. Developing, 
+maintaining, and applying configuration management code is conducting an orchestra of
+rackmounted servers, enterprise switches, desktops computers, and operating systems.
+
+Our systems live on hardware, virtual machines, and containers. We use a code versining
+control systems with continuous delivery and integration pipelines. The end result is
+a relatively polished desktop user experience. We install software that's required for
+lab sections and research.
+
+## The Operating Systems
+
+In the year 2023, Windows 10 is creeping towards the end of it's security patched
+lifecycle. After 2025, Windows 10 becomes a massive security vulnerability. It
+becomes a static largely unmaintained product that Microsoft will stay out of
+unless something super aweful effects too many legacy systems, and they push a
+few more patches.
+
+### Oh Snap!
+Ubuntu Jammy is the new LTS, and Snaps are getting bigger all the time. What are
+Snaps? Snaps are a fantastic way to containerize an application in a largely
+unconfigurable fashion as a way to make code easier to distribute between disparent
+Linux distributions. For a standalone desktop computer, they are fantastic way
+to make software run.
+
+For computers with network mounted storage drives, 
+

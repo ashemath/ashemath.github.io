@@ -1,0 +1,161 @@
+# Linux Recovery with Live USB and Chroot
+Today, my Linux system crashed unexpectedly.
+
+My dual-boot system has a habit of imploding when Windows updates it's boot
+config. When my graphic adapter and wifi stop working, I am left with a mostly
+inoperable system.
+
+Rather than reinstall Ubuntu all over and wreck all my configuration, I
+prefer to attempt a recovery using a live USB.
+
+The system can't start because we needed to update the boot partition, but 
+we didn't get the updates done before something crashed the system (or the OS
+refused to boot). Or something else is terribly wrong.
+
+Whatever the cause, a lot of the times a `apt upgrade` or `dnf update`
+is all a system needs, but there is no easy way to get there with a dorked
+boot partition.
+
+## Tutorial
+
+### Live USB
+You'll need to find a 4GB USB drive (Hopefully USB 3.0).
+
+When repairing my dual-boot, I'll use my operable Windows installation to prepare
+a live boot USB if I don't have one on hand.
+
+When making a bootable Linux USB on Windows, the tool to use is Rufus.
+
+[Rufus](https://rufus.ie/)
+
+Tutorial on making a live USB on Windows with Rufus from Canonical:
+
+[Create a bootable USB stick with Rufus on Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
+
+### Boot from USB to the Live system
+How to do this step varies for each computer. Usually mashing f12 works on
+Dell computers.
+
+Select "Try or Install" when GRUB asks you what you want to do next.
+
+Another pop up in the GUI will probably ask you this question again.
+Select "Try" to start the live environment. If you have a live distro
+that is only CLI, that's fine too!
+
+What you are looking for here is a way to get to a shell prompt with working
+drivers.
+
+### Prepare to Chroot
+Our goal is to hand the reigns of our functioning system to the root of the filesystem that we are struggling to boot.
+
+The Archlinux Wiki has a great article about using `chroot`:
+
+[chroot-ArchWiki](https://wiki.archlinux.org/title/chroot#Usage)
+
+Begin with making directories to mount your chroot environment onto:
+```
+$ sudo -i
+# mkdir /rescue
+# cd /rescue
+```
+To start, let's find our root (`/`) filesystem. This system is likely to be fine, but we can't boot far enough to utilize it to it's full potential.
+
+Try `ls /dev` and `fdisk` to find the root to your linux system. Mine is
+a ext4 filesystem that lives on `/dev/sdb4`.
+
+To mount the `/` onto our chroot environment:
+```
+# mount /dev/sdb4 /rescue/
+```
+
+Next, we need to figure out where the dorked boot partition lives. Since we
+are on a live system, our current `/boot` isn't what we want our `chroot` to
+effect. 
+
+I use a combination of `ls /dev` and `fdisk` to identify the dorked partition.
+
+Let's hand our dorked `/boot` to the a mountpoint at `/rescue/boot/`
+
+```
+# mkdir /rescue/boot
+# mount /dev/sda3 /rescue/boot/
+```
+
+Next, we want to hand over access to `proc` and `sys` this passes through PIDs
+and system device settings:
+
+```
+# mkdir /rescue/{proc,sys}
+# mount -t proc /proc proc/
+# mount -t sysfs /sys sys/
+```
+
+Now, we bind mount `/dev` and `/run`:
+
+```
+# mkdir /rescue/{dev,run}
+# mount -o bind/dev dev/
+# mount -o bind/run run/
+```
+
+If you are doing this on an EFI boot system, you'll want to
+bind mount your EFI variables. This important for fixing boot related
+issues on EFI.
+
+```
+# mount -o bind /sys/firmware/efi/efivars sys/firmware/efi/efivars/
+```
+
+### Chroot into /rescue
+Finally, the moment of truth. `chroot` into `/rescue`:
+```
+# chroot /rescue
+```
+If your prompt just changed, you've done something right! I am dropped
+into a `bash` shell as `root`, and when I `ls /home` I see that I
+am where I belong.
+
+Anything we do in this sub-shell will act upon our dorked `/boot` and root
+directory.
+
+### Hope this fixes it!
+Cross our fingers, and run:
+
+```
+# apt update && apt upgrade -y
+```
+
+For good measure, double down on building initramfs:
+```
+# depmod -a
+# update-initramfs -u
+```
+
+### Exit chroot
+Type `exit` to leave the `chroot` environment. 
+
+### Unmount directories 
+`cd` to home, and unmount all those `/rescue` directories:
+
+```
+# umount --recursive /rescue
+```
+
+### Reboot
+
+```
+# shutdown -r now
+```
+## Alternatives
+If you managed to update the chroot enironment, but your system still doesn't
+boot, you have the tools you need to recover files from your broken system
+before reinstalling your Linux distribution.
+
+* Boot into the Live environment
+* Stash whatever you need from the old root filesystem
+* Blow all of the problems away with a fresh system install. 
+
+I usually consider distro hopping when this happens, but I prefer Ubuntu for a
+dual-boot with Windows because its installer makes safely installing Ubuntu simple.
+
+
