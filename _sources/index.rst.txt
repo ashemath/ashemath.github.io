@@ -62,7 +62,7 @@ Complex technical solutions to real-world problems often include:
 - Configuration Management
 - Container image registry
 - Application Development (Multiple Languages, Multiple Platforms, Multiple Architectures)
-- Application Configuratio
+- Application Configuration
 - Application Deployment
 
 I strive to be someone who understands things at this level: a wizard. Someone who invokes daemons and memorizes incantations.
@@ -78,7 +78,7 @@ I understand that I'll toil for decades learning these things, and I am fine wit
 
 Teacher and Computer/Network Expert
 -------------------------------------
-I had a 10 year career as an educator before changing fields to work as a System/Network Admin. After College, I taught Adult Basic Education Mathemmatics for Job Corps
+I had a 10 year career as an educator before changing fields to work as a System/Network Admin. After College, I taught Adult Basic Education Mathematics for Job Corps
 After about 4 years, our campus shut down between contractors, and I went to work as an Elementary teacher.
 
 After teaching 5th and 6th grade for the two years, I went back to work at Job Corps as an IT instructor.
